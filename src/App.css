@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+ul {
+  font: 14px Verdana, Geneva, sans-serif;
+  overflow: hidden;
+}
+  ul li.left {
+          width: 25%;
+          float: left;
+          list-style-type: none;
+  }
+  ul li.right {
+          width: 25%;
+          float: right;
+          text-align: right;
+          list-style-type: none;
+  }
+  ul li.center {
+          text-align: center;
+          list-style-type: none;
+  }
+
+ 
