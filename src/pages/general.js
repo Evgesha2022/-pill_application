@@ -1,9 +1,12 @@
 import logo from '../logo.svg';
 import '../App.css';
 import React from 'react';
-import { CarouselLite, CarouselGridWrapper,useRemoteHandlers,BodyS, Switch,
+import Modal from 'react-modal';
+import { AddTablet } from './addtab';
+import { black, colorValues } from '@salutejs/plasma-tokens';
+import {Button, CarouselLite, CarouselGridWrapper,useRemoteHandlers,BodyS, Switch,
   DeviceThemeProvider,CarouselCol,Card, CardBody, CardContent} from '@salutejs/plasma-ui';
-
+import {IconPlus} from "@salutejs/plasma-icons";
 import { forwardRef, useState, useEffect,useRef } from 'react';
 import { useForkRef } from '@salutejs/plasma-ui';
 
@@ -27,6 +30,7 @@ function General() {
       .map(({ title, subtitle }, i) => ({
           title: `${days[getFutureDate(i).getDay()]} ${getFutureDate(i).toLocaleDateString()} `,
           subtitle: `${subtitle} `,
+          i:i
       }));
 
   const axis = 'x';
@@ -41,7 +45,7 @@ function General() {
   });
 
   return (
-      <DeviceThemeProvider>
+      <DeviceThemeProvider zIndex="99" >
           <h3 align="center">Время {today.toLocaleString()}</h3>
           <CarouselGridWrapper>
               <CarouselLite
@@ -50,17 +54,16 @@ function General() {
                   scrollMode="scroll"
                   scrollSnapType="mandatory"
                   detectActive detectThreshold={0.5}
-
                   style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem',paddingStart:"0px", }}
               >    
                   {items.map(({ title, subtitle }, i) => (
                       <CarouselCol key={`item:${i}`} size={2} sizeXL={4} scrollSnapAlign="start" type="calc">
-                          <Card style={{ height: '350px', width: "90vw", margin: '10px' }} focused={i === index}>
-                              <CardBody >
-                                  <CardContent>
+                          <Card style={{ height: '450px', width: "90vw", margin: '10px' }} focused={i === index}>
+                              <CardBody className="scrollbar1" style ={{ overflowY: 'scroll'}} >
+                                  <CardContent >
                                       {subtitle && <div style={{ fontSize: '12px', lineHeight: '20px' }}>{subtitle}</div>}
                                       <div style={{ fontSize: '16px' }}>{title}</div>
-                                      <FullCard posts={posts[i]} />
+                                      <FullCard posts={posts[i]}  />
                                   </CardContent>
                               </CardBody>
                           </Card>
@@ -68,12 +71,16 @@ function General() {
                   ))}
               </CarouselLite>
         </CarouselGridWrapper>
+        <AddTablet />
       </DeviceThemeProvider>
   );
 }
 
+
+
+
 function  FullCard(props)  {
-    let i=0;
+
     let [isSubscribed, setIsSubscribed] = useState();
     let state =JSON.parse(localStorage.getItem("state"))  || false; 
     isSubscribed = state
@@ -85,7 +92,7 @@ function  FullCard(props)  {
     setIsSubscribed(state);
   };
     const content = props.posts.map((post) =>
-      <div key={post.id}>
+      <div key={post.id} >
         <h3 >{post.name}            {post.time}
         <Switch  defaultChecked={false} onClick={
                     handleChange
@@ -97,16 +104,22 @@ function  FullCard(props)  {
       </div>);
     
     return (
-      <div>
+      <div style = {{}} >
         {content}
       </div>
     );
   }
+
+ 
+
+
   
   const posts = {
     0:[
     {id: 1, name: 'Афобазол', doza: '2 таблетки', time:"12:00", condition:"во время еды", state:"0" },
-    {id: 2, name: 'Цитрамон', doza: '1 таблетка',time: "14:00", condition:"после еды"}],
+    {id: 2, name: 'Цитрамон', doza: '1 таблетка',time: "14:00", condition:"после еды"},
+    {id: 3, name: 'Афобазол', doza: '2 таблетки', time:"12:00", condition:"во время еды", state:"0" },
+  {id: 4, name: 'Цитрамон', doza: '1 таблетка',time: "14:00", condition:"после еды"}],
     1:[
         {id: 1, name: 'Афобазол', doza: '2 таблетки', time:"12:00", condition:"во время еды", state:"0" },
         {id: 2, name: 'Цитрамон', doza: '1 таблетка',time: "14:00", condition:"после еды", state:"0"}],
@@ -124,23 +137,4 @@ function  FullCard(props)  {
             now.getMonth(),
             now.getDate() + days)
       };
-function MyForwardingRefComponent (val, st){
-    // const sl ={0:"false", 1:"true"}
-    let innerRef = useRef();
-    console.log(val)
-    // console.log(val);
-    const demoId = document.querySelector(".Switch");
-     let state =JSON.parse(localStorage.getItem("state"))
-     if (state==null){state=false}
-     demoId.st=true
-     console.log(innerRef.checked)
-    
-    let send = () => {
-        state= (innerRef.checked == false) ? true : false;
-        
-        innerRef.checked=state;
-        console.log(innerRef.checked)
-        localStorage.setItem("state", JSON.stringify(innerRef.checked));
-      };;
-};
 export {General}

@@ -12,7 +12,15 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+body {
+  overflow: hidden;
+}
+.butaddpill
+{
+  z-index: 1000;
+   bottom: 100px; 
+   left: 85vw;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -36,25 +44,50 @@
     transform: rotate(360deg);
   }
 }
-
 ul {
   font: 14px Verdana, Geneva, sans-serif;
   overflow: hidden;
+  display: flex;
+    list-style: none;
+   
 }
-  ul li.left {
-          width: 25%;
+ul li.left {
+          width: 10vw;
           float: left;
           list-style-type: none;
+          display: flex;
+    list-style: none;
+    margin: 0 6vw;
   }
-  ul li.right {
-          width: 25%;
+ ul li.right {
+          width: 10vw;
           float: right;
           text-align: right;
           list-style-type: none;
+          display: flex;
+    list-style: none;
+    margin: 0 6vw;
   }
-  ul li.center {
+ ul li.center {
           text-align: center;
           list-style-type: none;
+          display: flex;
+    list-style: none;
+    margin: 0 10px;
   }
+
+  .scrollbar {
+    overflow-y: scroll;
+  }
+  
+  .scrollbar::-webkit-scrollbar {
+    width: 0em;
+  }
+  .scrollbar1::-webkit-scrollbar {
+    width: 1em;
+  }
+ 
+
+  
 
  

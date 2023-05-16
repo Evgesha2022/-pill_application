@@ -12,7 +12,7 @@ root.render(
     <BrowserRouter>
     <DeviceThemeProvider>
         <GlobalStyle />
-        <App id ="child"/>
+        <App id ="child" className="scrollbar" style ={{ overflowY: 'scroll'}}/>
     </DeviceThemeProvider>
     </BrowserRouter>
     

@@ -6,16 +6,18 @@ import "../App.css"
 const Layout =  () =>{
     return(
         <>
-        <div >
-        <ul >
-            <li class="left"> <Link  to='/'><Button  pin="circle-circle" contentLeft={<IconApps/>} 
+        <Outlet/>
+      <div className="parent" style={{ position: 'fixed', bottom: 0, display:"flex" }}>
+        <ul  >
+            <li  class="left"> <Link  to='/'><Button  pin="circle-circle" contentLeft={<IconApps/>} 
      /></Link></li>
    
     <li class="left" ><Link   to='/tablets'><Button   pin="circle-circle" contentLeft={<IconHeart/>} /></Link></li>
     <li class="right"><Link to='/profile'><Button  pin="circle-circle"  contentLeft={<IconAvatar/>}/></Link></li>
     <li class="right"><Link  to='/eapteka'><Button   pin="circle-circle" contentLeft={<IconCartAlt/>} /></Link></li>
-    </ul></div>
-    <Outlet/>
+    </ul>
+    </div>
+    
     </>
          
     )
