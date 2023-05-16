@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { DeviceThemeProvider } from '@salutejs/plasma-ui/components/Device'; // Типографика, имеющая размеры, зависимые от типа устройства
 import { GlobalStyle } from './GlobalStyle'; // Тема оформления (цветовая схема)
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>

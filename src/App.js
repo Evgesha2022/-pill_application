@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import  {AddTab} from './pages/alltab';
 import {General} from './pages/general';

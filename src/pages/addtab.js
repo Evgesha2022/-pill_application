@@ -1,14 +1,12 @@
-import logo from '../logo.svg';
+
 import '../App.css';
 import React from 'react';
 import Modal from 'react-modal';
-import { black, colorValues } from '@salutejs/plasma-tokens';
-import {Button, CarouselLite, CarouselGridWrapper,useRemoteHandlers,BodyS, Switch,
-  DeviceThemeProvider,CarouselCol,Card, CardBody, CardContent, CardHeadline1, TextField} from '@salutejs/plasma-ui';
+import {Button,Card, CardBody, CardContent, CardHeadline1, TextField} from '@salutejs/plasma-ui';
 import {IconPlus, IconCrossCircle} from "@salutejs/plasma-icons";
 import { forwardRef, useState, useEffect,useRef,onSubmit, onCancel } from 'react';
 import { useForkRef } from '@salutejs/plasma-ui';
-
+import Axios from 'axios';
 
 export function AddTablet (){
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -23,6 +21,11 @@ export function AddTablet (){
     };
     const handleSubmit = (e) => {//здесь записываем данные в базу данных
         e.preventDefault();
+        Axios.post('http://localhost:3000/add-user', {
+name: name,
+surname:doza,
+birthday:start
+      })
         closeModal();
     };
     let value=''
@@ -67,6 +70,17 @@ export function AddTablet (){
                       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'height 0.5s ease-out' }}>
                           <TextField style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }} name="title" onChange={(e) => {setName(e.target.value)}}  placeholder="Название лекарства"
                           required />
+                          <TextField
+                                        style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
+                                        type='date'
+                                        name={`date`}
+                                        onChange={(e) => {setStart(e.target.value)}}
+                                        placeholder="Дата начала приёма"/>
+                          <TextField
+                                        style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
+                                        
+                                        onChange={(e) => {setPeriod(e.target.value)}}
+                                        placeholder="Период приема"/>
                           {items && items.time && items.time.map((time, index) => (
                                 <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '20px', fontSize: '20px' }}>
                                    
