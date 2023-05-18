@@ -1,14 +1,11 @@
-import logo from '../logo.svg';
+
 import '../App.css';
 import React from 'react';
-import Modal from 'react-modal';
-import { AddTablet } from './addtab';
-import { black, colorValues } from '@salutejs/plasma-tokens';
-import {Button, CarouselLite, CarouselGridWrapper,useRemoteHandlers,BodyS, Switch,
+import { AddTablet } from './addtab.js';
+import {CarouselLite, CarouselGridWrapper,useRemoteHandlers,BodyS, Switch,
   DeviceThemeProvider,CarouselCol,Card, CardBody, CardContent} from '@salutejs/plasma-ui';
-import {IconPlus} from "@salutejs/plasma-icons";
-import { forwardRef, useState, useEffect,useRef } from 'react';
-import { useForkRef } from '@salutejs/plasma-ui';
+import {  useState } from 'react';
+
 
 
 
@@ -58,7 +55,7 @@ function General() {
               >    
                   {items.map(({ title, subtitle }, i) => (
                       <CarouselCol key={`item:${i}`} size={2} sizeXL={4} scrollSnapAlign="start" type="calc">
-                          <Card style={{ height: '450px', width: "90vw", margin: '10px' }} focused={i === index}>
+                          <Card style={{ height: '420px', width: "90vw", margin: '10px' }} focused={i === index}>
                               <CardBody className="scrollbar1" style ={{ overflowY: 'scroll'}} >
                                   <CardContent >
                                       {subtitle && <div style={{ fontSize: '12px', lineHeight: '20px' }}>{subtitle}</div>}

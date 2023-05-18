@@ -4,10 +4,9 @@ import React from 'react';
 import Modal from 'react-modal';
 import {Button,Card, CardBody, CardContent, CardHeadline1, TextField} from '@salutejs/plasma-ui';
 import {IconPlus, IconCrossCircle} from "@salutejs/plasma-icons";
-import { forwardRef, useState, useEffect,useRef,onSubmit, onCancel } from 'react';
-import { useForkRef } from '@salutejs/plasma-ui';
-import Axios from 'axios';
+import {  useState } from 'react';
 
+import axios from '../axios.js';
 export function AddTablet (){
     const [modalIsOpen, setModalIsOpen] = useState(false);
     
@@ -21,11 +20,11 @@ export function AddTablet (){
     };
     const handleSubmit = (e) => {//здесь записываем данные в базу данных
         e.preventDefault();
-        Axios.post('http://localhost:3000/add-user', {
+        axios.post('/', {
 name: name,
 surname:doza,
 birthday:start
-      })
+      });
         closeModal();
     };
     let value=''
