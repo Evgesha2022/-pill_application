@@ -20,6 +20,9 @@ function General() {
         6: 'Суббота',
         0: 'Воскресенье',
     };
+
+    //const { onAdd } = this.props;
+    //const { onChangeAd } = this.props;
   const items = Array(7)
       .fill({
           subtitle: 'Расписание приема таблеток',
@@ -68,7 +71,7 @@ function General() {
                   ))}
               </CarouselLite>
         </CarouselGridWrapper>
-        <AddTablet />
+
       </DeviceThemeProvider>
   );
 }

@@ -3,29 +3,29 @@ import '../App.css';
 import React from 'react';
 import Modal from 'react-modal';
 import {Button,Card, CardBody, CardContent, CardHeadline1, TextField} from '@salutejs/plasma-ui';
-import {IconPlus, IconCrossCircle} from "@salutejs/plasma-icons";
+import {IconCrossCircle} from "@salutejs/plasma-icons";
 import {  useState } from 'react';
-
 import axios from '../axios.js';
-export function AddTablet (){
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+
+
+export function AddTablet (props){
     
-    const openModal = () => {
-      setModalIsOpen(true);
-    };
-  
-    const closeModal = () => {
-      setTimes('');
-      setModalIsOpen(false);
-    };
-    const handleSubmit = (e) => {//здесь записываем данные в базу данных
+
+    //const { onAdd } = this.props;
+    //const { onChangeAd1 } = this.props;
+
+    const { onAdd } = props;
+    const { onChangeAdd } = props;
+    console.log(onAdd)
+    console.log(onChangeAdd)
+ const handleSubmit = (e) => {//здесь записываем данные в базу данных
         e.preventDefault();
-        axios.post('/', {
-name: name,
-surname:doza,
-birthday:start
-      });
-        closeModal();
+        //console.log(onAdd)
+        //console.log(onChangeAd1)
+            window.location.href = '/';
+            alert("Лекарство добавлено");
+
     };
     let value=''
     const [items, setItems] = useState(value)
@@ -54,15 +54,11 @@ birthday:start
 
     return (
       
-      <div background-color="rgba(0, 0, 0, 0.5)"  z-index="1200">
-        <Button  onClick={openModal} className='butaddpill' pin="circle-circle" contentLeft={<IconPlus/>} />
-          <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}  z-index="1200" >
-          <form onSubmit={handleSubmit} z-index="1200" >
-          <Card  style={{ height: '50vw', width: '90vw', margin: '0px', backgroundColor: 'rgb(6, 22, 33)' }}>
-              <CardBody>
-                  <CardContent className='med__content' style={{ marginLeft: '20px', marginTop: '26px' }} >
+      <div background-color="rgba(0, 0, 0, 0.5)"  z-index="1200" className="scrollbar1" style ={{ overflowY: 'scroll'}}>
+    
+    <Card style={{ height: '420px', width: "90vw", margin: '10px' }} >
+                              <CardBody className="scrollbar1" style ={{ overflowY: 'scroll'}} >
+                                  <CardContent >
                       <CardHeadline1 className='med__title' style={{ fontSize: '40px', paddingBottom: '46px', paddingTop: '36px' }}>
                           {'Добавить лекарство'}
                       </CardHeadline1>
@@ -105,14 +101,15 @@ birthday:start
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '36px' }}>
                           <Button view='primary' style={{ width: '120px' }} type="submit" onClick={handleSubmit}>{'Добавить'}</Button>
-                          <Button style={{ width: '120px' }} onClick={closeModal}>Отмена</Button>
+                          <Button style={{ width: '120px' }} onClick={()=>{
+
+window.location.href = '/';
+}}>Отмена</Button>
                       </div>
                   </CardContent>
               </CardBody>
           </Card>
-           </form>
-          
-        </Modal> 
+
         </div>
     );
   };

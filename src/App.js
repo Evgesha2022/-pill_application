@@ -1,27 +1,37 @@
 
 import './App.css';
-import  {AddTab} from './pages/alltab.js';
+import  {AllTab} from './pages/alltab.js';
+import  {AddTablet} from './pages/addtab.js';
 import {General} from './pages/general.js';
 import {Profile} from './pages/profile.js';
 import {Eapteka} from './pages/eapteka.js';
 import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import {Layout} from './components/Layout.jsx'
+import { InputActionType } from './scenario/types.ts';
 
 import {createSmartappDebugger,
   createAssistant} from "@salutejs/client";
 const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OGY0MDdmYS04ZGQ2LTQ0NWUtODA3YS00ZThjMjA0NjlkOWMiLCJzdWIiOiJmZjAwMWZiNjdhYmU5ZGFmMzY1ZTQwZTc0NDNhOWE0MzQ0YjRiYzE2ODRlOTFiZmZlNTVlMjFlMzgzMmYxNjY4YmQyZGMiLCJpc3MiOiJLRVlNQVNURVIiLCJleHAiOjE2ODQ1NzkyMjMsImF1ZCI6IlZQUyIsImlhdCI6MTY4NDQ5MjgxMywidHlwZSI6IkJlYXJlciIsInNpZCI6IjYwNDhlMTFhLTdmMzYtNDM1YS04MGQ0LTEyOTYxNTIxNzMxMyJ9.LbCDrlr7wEnOH9yg9APd1Q5-OjG-JrjqHBEau7wMGcm7Scq8UcMm4Vfd-p4_EfIM2R8DIza028kQqGe8xk3vb12Z_1IR4x1q0mr2qocDdpZJFfZh61HXggrZQuWPzOTQ1t0xXjotL8WaqPml45TPPoDlOnT3h7IOWXEtv5hTWvOYlXmjVXaL-whQ61tQ_VNLp5Ese4euZwJNwMKqFoM7i6WDpHLbAKqNKRmY0Nrv0gJCVqYhg9Pa8TMYD4cYzuJPDzRgmW8qERhYon5eqRbhtiq2deDFOYAwbhBC3BTma_Hl2Z9xNJU97X2bZ23n0NRpM6A-uvCE-tMRxOymEDkJA80168jL9N7xHVuXgbZhOqNDRP6Td_WeL1RDSSZG2iRZa9NOJ4LDuDIJ_z0ypBde193Bd4Hy1ZZhzpwyAI6mBxQqVh_vKPHcRxO3BHjRIgpXzMIQYMXPkw8iVUTtgaUCaFvah8plqFg4uYFJzU7B-pXs-qW2AHQIDtch9q2Vfzbrf5DDK9LdnGnkJiSgfcaiB2QWtD4lQiWyD7bkHfPnOm9zdP19ZaPyLysI_XLImo9nW3aUZPdLye1uGW1a_OMui-MWqkAAbYbKRiqv2Gz6iL9qTkKv8QGn4GyzACZq68pVmLuNJvm0Cjgt9ahM_4IDShYBF_AnTD6CFgOvWnHeNUo'
-  const initializeAssistant = (getState/*: any*/) => {
+  const initializeAssistant = (getState, getRecoveryState) => {
     if (process.env.NODE_ENV === "development") {
       return createSmartappDebugger({
         token:  token,
-        initPhrase: `Запусти ${process.env.REACT_APP_SMARTAPP}`,
+        initPhrase: `Привет`,
         getState,
+        getRecoveryState,
+        nativePanel: {
+          // Стартовый текст в поле ввода пользовательского запроса
+          defaultText: 'Покажи что-нибудь',
+          // Позволяет включить вид панели, максимально приближенный к панели на реальном устройстве
+          screenshotMode: false,
+          // Атрибут `tabindex` поля ввода пользовательского запроса
+          tabIndex: -1,
+      },
       });
     }
-    return createAssistant({ getState });
+    return createAssistant({ getState, getRecoveryState });
   };
-
 
   export class App extends React.Component {
 
@@ -70,14 +80,30 @@ const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OGY0MDdmYS04ZGQ2L
       console.log('dispatchAssistantAction', action);
       if (action) {
         switch (action.type) {
-          case '1':
-            return this.evolve_choose(action);
+          case 'add_tablet':
+            return this.add_tablet(action);
   
           default:
             throw new Error();
         }
       }
     }
+    add_tablet (action) {
+      console.log('add_tablet', action);
+      if (action.note != undefined){
+      this.setState({
+          notes: [
+            {
+              name:    action.note,
+            },
+            ...this.state.notes.slice(1),
+          ],
+      })
+    }
+  }
+
+
+
     render() {
       console.log('render');
 
@@ -86,10 +112,13 @@ const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OGY0MDdmYS04ZGQ2L
     <Routes >
     <Route path='/' element={<Layout  />}>
       <Route index element={<General/>}/>
-      <Route path='/tablets' element={<AddTab/>}/>
+      <Route path='/tablets' element={<AllTab/>}/>
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/eapteka' element={<Eapteka/>}/>
-      <Route path='*' element={<General/>}/>
+      <Route path='/addtablet' element={<AddTablet
+      onAdd={ (note)=>{this.add_tablet({ type: "add_tablet", note }); } }
+      onChangeAdd = {(this.state)}
+      />}/>
     </Route>
     </Routes>
     </>

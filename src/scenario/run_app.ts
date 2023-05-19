@@ -7,12 +7,26 @@ import {
 
 const storage = new SaluteMemoryStorage();
 const { action, regexp, text } = createMatchers<SaluteRequest>();
-const userScenario = createUserScenario({})
+const userScenario = createUserScenario({
+    Profile: {
+        match: text('профиль'),
+        handle: ({ res }) => {
+            res.getProfileData();
+        }},
+        AddTablet: {
+            match: regexp(/^(записать|добавить|принять) (?<note>.+)$/i),
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            handle: addNote,
+        },
+
+
+})
 
 const scenarioWalker = createScenarioWalker({
         systemScenario: createSystemScenario({
             //Сообщение о запуске смартапа
-            //RUN_APP: runAppHandler,
+            RUN_APP: runAppHandler,
             NO_MATCH: noMatchHandler
         })
     });
@@ -30,3 +44,4 @@ export const handleNlpRequest = async (request: NLPRequest): Promise<NLPResponse
 
     return res.message;
 };
+

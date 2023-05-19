@@ -81,10 +81,10 @@ ul li.left {
   }
   
   .scrollbar::-webkit-scrollbar {
-    width: 0em;
+    width: 5em;
   }
   .scrollbar1::-webkit-scrollbar {
-    width: 1em;
+    width: 5em;
   }
  
 
