@@ -5,7 +5,7 @@ import '../App.css'
 import { IconTrashFilled, IconBell, IconDisclosureRight, IconLogout, IconSettings } from '@salutejs/plasma-icons';
 import { Button, Card,  CardBody, CardContent, CardHeadline1, TextField} from '@salutejs/plasma-ui';
 import {  useState } from 'react';
-
+import {post_data_profile} from '../data'
 import axios from '../axios.js';
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
@@ -38,6 +38,8 @@ function  Profile(){
         surname:surname,
         birthday:birthday
               })
+        let data =post_data_profile(name, surname)
+        console.log(data)
      /* axios.post('/profile', {
 name: name,
 surname:surname,
