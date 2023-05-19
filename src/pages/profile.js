@@ -7,8 +7,8 @@ import { Button, Card,  CardBody, CardContent, CardHeadline1, TextField} from '@
 import {  useState } from 'react';
 
 import axios from '../axios.js';
-import fs from "fs";
-const data = fs.readFile('data.json', 'utf8');
+//import fs from "fs";
+//const data = fs.readFile('data.json', 'utf8');
 function  Profile(){
   let id = "6465e2da3aced2480cef29af"
   let value=''

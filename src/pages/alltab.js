@@ -1,4 +1,4 @@
-import { DeviceThemeProvider } from "@sberdevices/plasma-ui";
+import { DeviceThemeProvider } from '@salutejs/plasma-ui';
 
 function AddTab(){
     return(
