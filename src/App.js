@@ -24,20 +24,63 @@ const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJmNzBiOWUzYS00MTUw
   };
 
 
-function App() {
-  const assistant = initializeAssistant(() => this.getStateForAssistant() );
+  export class App extends React.Component {
+
+    constructor(props) {
+      super(props);
+      console.log('constructor');
   
-  assistant.on("data", (event/*: any*/) => {
-    console.log(assistant)
-    //console.log(`assistant.on(data)`, event);
-    
-  });
-
-  assistant.on("start", (event) => {
-    //console.log(`assistant.on(start)`, event);
-  });
-
-
+      this.state = {
+        notes: [],
+      }
+  
+      this.assistant = initializeAssistant(() => this.getStateForAssistant());
+      this.assistant.on("data", (event/*: any*/) => {
+        console.log(`assistant.on(data)`, event);
+        const { action } = event
+        this.dispatchAssistantAction(action);
+      });
+      this.assistant.on("start", (event) => {
+        console.log(`assistant.on(start)`, event);
+      });
+  
+    }
+  
+    componentDidMount() {
+      console.log('componentDidMount');
+    }
+  
+    getStateForAssistant() {
+      console.log('getStateForAssistant: this.state:', this.state)
+      const state = {
+        item_selector: {
+          items: this.state.notes.map(
+            ({ id, title }, index) => ({
+              number: index + 1,
+              id,
+              title,
+            })
+          ),
+        },
+      };
+      console.log('getStateForAssistant: state:', state)
+      return state;
+    }
+  
+    dispatchAssistantAction (action) {
+      console.log('dispatchAssistantAction', action);
+      if (action) {
+        switch (action.type) {
+          case '1':
+            return this.evolve_choose(action);
+  
+          default:
+            throw new Error();
+        }
+      }
+    }
+    render() {
+      console.log('render');
 
   return(
     <>
@@ -53,6 +96,7 @@ function App() {
     </>
   )
 };
+  }
 
 
 export default App;

@@ -7,10 +7,29 @@ import { Button, Card,  CardBody, CardContent, CardHeadline1, TextField} from '@
 import {  useState } from 'react';
 
 import axios from '../axios.js';
-
-
+import fs from "fs";
+const data = fs.readFile('data.json', 'utf8');
 function  Profile(){
-  
+  let id = "6465e2da3aced2480cef29af"
+  let value=''
+  const [name, setName] = useState("Ваше имя");
+  const [surname, setSurname] = useState("Ваша фамилия");
+  const [birthday, setBirthday] = useState("");
+  /*axios.get(`/profile/${id}`)
+  .then(function (response) {
+    const dataa = response.data;
+    setName(dataa.name)
+    setSurname(dataa.surname)
+    setBirthday(dataa.birthday)
+  }
+  )
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function () {
+    // always executed
+  });*/
   
   const handleSubmit = (e) => {//здесь записываем данные в базу данных
       e.preventDefault();
@@ -19,18 +38,15 @@ function  Profile(){
         surname:surname,
         birthday:birthday
               })
-      axios.post('/profile', {
+     /* axios.post('/profile', {
 name: name,
 surname:surname,
 birthday:birthday
-      });
+      });*/
+
   };
-  let value=''
-  const [items, setItems] = useState(value)
-  
-  const [name, setName] = useState(value);
-  const [surname, setSurname] = useState(value);
-  const [birthday, setBirthday] = useState(value);
+
+
 
   return (
     
@@ -43,18 +59,18 @@ birthday:birthday
                         {'Ваш профиль'}
                     </CardHeadline1>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'height 0.5s ease-out' }}>
-                        <TextField style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }} name="title" onChange={(e) => {setName(e.target.value)}}  placeholder="Ваше имя"
+                        <TextField style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }} name="title" onChange={(e) => {setName(e.target.value)}}  placeholder={name}
                         required />
                         <TextField
                                       style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
                                       
                                       onChange={(e) => {setSurname(e.target.value)}}
-                                      placeholder="Ваша фамилия"/>
+                                      placeholder={surname}/>
                         
                         <TextField
                                       style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
                                       type='date'
-                                      name={`date`}
+                                      name={birthday}
                                       onChange={(e) => {setBirthday(e.target.value)}}
                                       placeholder="Дата рождения"/>
                         

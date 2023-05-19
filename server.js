@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('Hello, Server!');
 });
 
-app.get('/profile', checkAuth, UserContr.getprofile);
+app.get('/profile/:id', UserContr.getprofile);
 app.post('/pill', (req, res)=>
 {
     console.log(req.body);

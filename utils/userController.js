@@ -2,19 +2,24 @@ import {registerValidation} from '../validations/register.js'
 import jwt  from 'jsonwebtoken';
 import {validationResult}  from 'express-validator';
 import userModel from '../models/user.js';
+
+import {ObjectId} from "mongodb";
+import {MongoClient} from "mongodb";
 export const getprofile  = async (req, res)=>{
+
     try{
-        const user = await userModel.findById(req.userId)
+        const id = new ObjectId(req.params.id);
+        const user = await userModel.findById({_id: id})
         if(!user){
             res.json({message:"такого пользователя нет"})
         }
-        const token = jwt.sign({
+        /*const token = jwt.sign({
             _id: user._id,
          }, "secret123",
          {
            expiresIn:"30d",
-         });
-       res.json({...user._doc, token,})
+         });*/
+       res.json({...user._doc, })//token,
     }
     catch(err){
         console.log(err);
