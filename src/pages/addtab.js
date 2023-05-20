@@ -17,12 +17,14 @@ export function AddTablet (props){
 
     const { onAdd } = props;
     const { onChangeAdd } = props;
-    console.log(onAdd)
+    let i =onChangeAdd["notes"].lenght
+    console.log(i)
     console.log(onChangeAdd)
  const handleSubmit = (e) => {//здесь записываем данные в базу данных
         e.preventDefault();
         //console.log(onAdd)
         //console.log(onChangeAd1)
+        
             window.location.href = '/';
             alert("Лекарство добавлено");
 

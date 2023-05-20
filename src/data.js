@@ -1,7 +1,7 @@
 
 
 let data = require('./data.json');
-let i = data.length()
+//let i = data.length()
 export function get_data_tablets(id){
     
     const result = data.parse;
@@ -17,7 +17,7 @@ export function get_data_tablets(id){
   }
   export function post_data_profile(name, surname){
     var obj = new Object()
-    obj[i+1] = {id: 859,
+    obj[0] = {id: 859,
         name: name,
         surname: surname,
         tablets: []}
