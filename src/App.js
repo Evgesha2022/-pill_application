@@ -8,18 +8,18 @@ import {Eapteka} from './pages/eapteka.js';
 import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import {Layout} from './components/Layout.jsx'
-import { InputActionType } from './scenario/types.ts';
+
 import {get_data_tablets} from "./data"
 import {createSmartappDebugger,
   createAssistant} from "@salutejs/client";
 
   get_data_tablets(0)
-const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OGY0MDdmYS04ZGQ2LTQ0NWUtODA3YS00ZThjMjA0NjlkOWMiLCJzdWIiOiJmZjAwMWZiNjdhYmU5ZGFmMzY1ZTQwZTc0NDNhOWE0MzQ0YjRiYzE2ODRlOTFiZmZlNTVlMjFlMzgzMmYxNjY4YmQyZGMiLCJpc3MiOiJLRVlNQVNURVIiLCJleHAiOjE2ODQ1NzkyMjMsImF1ZCI6IlZQUyIsImlhdCI6MTY4NDQ5MjgxMywidHlwZSI6IkJlYXJlciIsInNpZCI6IjYwNDhlMTFhLTdmMzYtNDM1YS04MGQ0LTEyOTYxNTIxNzMxMyJ9.LbCDrlr7wEnOH9yg9APd1Q5-OjG-JrjqHBEau7wMGcm7Scq8UcMm4Vfd-p4_EfIM2R8DIza028kQqGe8xk3vb12Z_1IR4x1q0mr2qocDdpZJFfZh61HXggrZQuWPzOTQ1t0xXjotL8WaqPml45TPPoDlOnT3h7IOWXEtv5hTWvOYlXmjVXaL-whQ61tQ_VNLp5Ese4euZwJNwMKqFoM7i6WDpHLbAKqNKRmY0Nrv0gJCVqYhg9Pa8TMYD4cYzuJPDzRgmW8qERhYon5eqRbhtiq2deDFOYAwbhBC3BTma_Hl2Z9xNJU97X2bZ23n0NRpM6A-uvCE-tMRxOymEDkJA80168jL9N7xHVuXgbZhOqNDRP6Td_WeL1RDSSZG2iRZa9NOJ4LDuDIJ_z0ypBde193Bd4Hy1ZZhzpwyAI6mBxQqVh_vKPHcRxO3BHjRIgpXzMIQYMXPkw8iVUTtgaUCaFvah8plqFg4uYFJzU7B-pXs-qW2AHQIDtch9q2Vfzbrf5DDK9LdnGnkJiSgfcaiB2QWtD4lQiWyD7bkHfPnOm9zdP19ZaPyLysI_XLImo9nW3aUZPdLye1uGW1a_OMui-MWqkAAbYbKRiqv2Gz6iL9qTkKv8QGn4GyzACZq68pVmLuNJvm0Cjgt9ahM_4IDShYBF_AnTD6CFgOvWnHeNUo'
+const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI5MzY2Yjk4Yy1iOWM2LTRkOWItYjYzNi02ZGI3Y2E4MDZiZTAiLCJzdWIiOiJmZjAwMWZiNjdhYmU5ZGFmMzY1ZTQwZTc0NDNhOWE0MzQ0YjRiYzE2ODRlOTFiZmZlNTVlMjFlMzgzMmYxNjY4YmQyZGMiLCJpc3MiOiJLRVlNQVNURVIiLCJleHAiOjE2ODQ2NTUwMTksImF1ZCI6IlZQUyIsImlhdCI6MTY4NDU2ODYwOSwidHlwZSI6IkJlYXJlciIsInNpZCI6IjRmZmMzOGRlLTgxOWEtNDE2Ni1hZWMzLTVlN2I1NDc5YThlOSJ9.kbTY-hBWhK8lwBYjuh29QlrqlHHxFCXQxByFTg_ak78iBLwcdgQfI3ckl72vsQBmuvxRqgjB9VECUNr0Yp8LjkRy_uB5FP76rFObHMC69m6SMuGOQdYcqOcF9CDPE0dv7n-WjBaHaYw_uZUAtygk3L33EdaqNptBBOb_b3mHurX9poQihjlyTGLWj2yZ-8Qc-T5Ul3eU972nz5Hw-Ab3kM2ddyrVBjpwp1hW9rGNI8LNWPDW9_CERxblu97PWDEWAqziyUvcUxgHafeJ2xoPkyrGzTcABG1JYxpNFASpg7iH_ny8G5ZySPXeN1OMdfIRVtNQpJKX1syGgkX2TvurhRp1fpQdkrkOK2FEkgRinnfsxe-6mM-sC06ZI6NpxAgl9ZNKMAWNV3UEGiMjf1lZLYugCqw7zDQYJceLuW8CK1CcFsG0ulFAac3NfAJAU9QpRIK4X3RRWfG6uCBp6x5x_wv10y07clCWnjxcqlK8ArtQE-mz8r8_In_YUkiQ8O2hRqLEIAdN2LpHsZH0L1GX0tPyGN4vKY8CQrwddBQiFM6i9IGaJI1sAzANJKY50wqlmdY8zhNsbwvlQsrIKoY459HRK90s4Ry0tkZUNEGBBN_nascBcxMaNO58pJUm0llW0L8bK5iiBzouMBcVWyJnzJWBTO77vzic3tTMc4F2-8o'
   const initializeAssistant = (getState, getRecoveryState) => {
     if (process.env.NODE_ENV === "development") {
       return createSmartappDebugger({
         token:  token,
-        initPhrase: `Привет`,
+        initPhrase: `запусти ${process.env.REACT_APP_SMARTAPP}`,
         getState,
         getRecoveryState,
         nativePanel: {
@@ -80,9 +80,11 @@ const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OGY0MDdmYS04ZGQ2L
   
     dispatchAssistantAction (action) {
       console.log('dispatchAssistantAction', action);
+
       if (action) {
         switch (action.type) {
           case 'add_tablet':
+            
             return this.add_tablet(action);
           case 'add_user':
             return this.add_user(action);
@@ -91,13 +93,13 @@ const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OGY0MDdmYS04ZGQ2L
         }
       }
     }
-    add_tablet (action) {
-      console.log('add_tablet', action);
-      if (action.note != undefined){
+add_tablet (action) {
+      console.log('add_tablet', action.name);
+      if (action.name != undefined){
       this.setState({
           notes: [
             {
-              name:    action.note,
+              name:    action.name,
             },
             ...this.state.notes.slice(1),
           ],
