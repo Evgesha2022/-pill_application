@@ -1,21 +1,32 @@
-import React from 'react';
-import { } from '@salutejs/plasma-ui/components/ProductCard/ProductCardStepper.js';
-import '../App.css'
-// ./App.css
-import { IconTrashFilled, IconBell, IconDisclosureRight, IconLogout, IconSettings } from '@salutejs/plasma-icons';
-import { Button, Card,  CardBody, CardContent, CardHeadline1, TextField} from '@salutejs/plasma-ui';
-import {  useState } from 'react';
-import {post_data_profile} from '../data'
+
+import React, { useState } from 'react';
+import { IconDisclosureRight, IconChevronDown, IconEdit } from '@salutejs/plasma-icons';
+import './profile.css'
+import { Button, Card, Cell, Container, DeviceThemeProvider, H2, HeaderSubtitle, HeaderTitle, Headline1, Radiobox, Switch, TextField, } from '@salutejs/plasma-ui';
+import { post_data_profile } from '../data'
 import axios from '../axios.js';
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
-function  Profile(){
-  let id = "6465e2da3aced2480cef29af"
-  let value=''
-  const [name, setName] = useState("Ваше имя");
-  const [surname, setSurname] = useState("Ваша фамилия");
-  const [birthday, setBirthday] = useState("");
-  /*axios.get(`/profile/${id}`)
+
+
+const Profile = () => {
+
+    let id = "6465e2da3aced2480cef29af"
+    const [activeButton, setActiveButton] = useState('edit');
+
+    const [isReadOnly, setIsReadOnly] = useState(false);
+
+    const handleEdit = (e) => {
+        setActiveButton('edit');
+        setIsReadOnly(false);
+    };
+
+    let value = '';
+
+    const [name, setName] = useState(value);
+    const [surname, setSurname] = useState(value);
+    const [birthday, setBirthdate] = useState(value);
+    /*axios.get(`/profile/${id}`)
   .then(function (response) {
     const dataa = response.data;
     setName(dataa.name)
@@ -30,64 +41,64 @@ function  Profile(){
   .finally(function () {
     // always executed
   });*/
-  
-  const handleSubmit = (e) => {//здесь записываем данные в базу данных
-      e.preventDefault();
-      console.log({
-        name: name,
-        surname:surname,
-        birthday:birthday
-              })
-        let data =post_data_profile(name, surname)
+
+    const handleSubmit = (e) => {
+        setActiveButton('save');
+        setIsReadOnly(true);
+        e.preventDefault();
+        console.log({
+            name: name,
+            surname: surname,
+            birthday: birthday
+        })
+        let data = post_data_profile(name, surname)
         console.log(data)
-     /* axios.post('/profile', {
-name: name,
-surname:surname,
-birthday:birthday
-      });*/
-
-  };
-
+        /* axios.post('/profile', {
+    name: name,
+    surname:surname,
+    birthday:birthday
+         });*/
+    };
 
 
-  return (
-    
-    <div background-color="rgba(0, 0, 0, 0.5)"  z-index="1200">
-        
-        <Card  style={{ height: '50vw', width: '90vw', margin: '0px', backgroundColor: 'rgb(6, 22, 33)' }}>
-            <CardBody>
-                <CardContent className='med__content' style={{ marginLeft: '20px', marginTop: '26px' }} >
-                    <CardHeadline1 className='med__title' style={{ fontSize: '40px', paddingBottom: '46px', paddingTop: '36px' }}>
-                        {'Ваш профиль'}
-                    </CardHeadline1>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'height 0.5s ease-out' }}>
-                        <TextField style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }} name="title" onChange={(e) => {setName(e.target.value)}}  placeholder={name}
-                        required />
-                        <TextField
-                                      style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
-                                      
-                                      onChange={(e) => {setSurname(e.target.value)}}
-                                      placeholder={surname}/>
-                        
-                        <TextField
-                                      style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
-                                      type='date'
-                                      name={birthday}
-                                      onChange={(e) => {setBirthday(e.target.value)}}
-                                      placeholder="Дата рождения"/>
-                        
-                        
-                
-                        
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '36px' }}>
-                        <Button view='primary' style={{ width: '120px' }} type="submit" onClick={handleSubmit}>{'Добавить'}</Button>
-                    </div>
-                </CardContent>
-            </CardBody>
-        </Card>
-      </div>
-  );
+
+    return (
+        <DeviceThemeProvider className='profile' style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ paddingBottom: '16px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <h2 className='profile__title' style={{ marginLeft: '50px' }}>Ваш профиль</h2>
+                <Button className='profile__btn__edit' onClick={handleEdit} disabled={activeButton === 'edit'} ><IconEdit /></Button>
+            </div>
+            <div className='profile__content' style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+
+                <div className='profile__edited' style={{ alignItems: 'center', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+
+                    <HeaderSubtitle className='profile__text' >Имя</HeaderSubtitle>
+                    <TextField style={{ width: '30vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text'></TextField>
+
+                    <HeaderSubtitle className='profile__text'>Фамилия</HeaderSubtitle>
+                    <TextField onChange={(e) => { setSurname(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою фамилию'} readOnly={isReadOnly} type='text'></TextField>
+
+                    <HeaderSubtitle className='profile__text'>Дата рождения</HeaderSubtitle>
+                    <TextField onChange={(e) => { setBirthdate(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою дату рождения'} readOnly={isReadOnly} type="date" id="birthday" name="birthday" ></TextField>
+
+                </div>
+
+                <Button
+                    className='profile__btn'
+                    onClick={handleSubmit}
+                    view="primary"
+                    type='submit'
+                    size='s'
+                    style={{ marginTop: '10px' }}
+                    disabled={activeButton === 'save'}>Сохранить</Button>
+            </div>
+
+        </DeviceThemeProvider >
+    );
 };
+export { Profile };
 
-export {Profile};
+
+
+
+
