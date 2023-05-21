@@ -6,15 +6,15 @@ import {Button,Card, CardBody, CardContent, CardHeadline1, TextField} from '@sal
 import {IconCrossCircle} from "@salutejs/plasma-icons";
 import {  useState } from 'react';
 import axios from '../axios.js';
-
+import {get_data} from '../data.js'
 
 
 export function AddTablet (props){
-    
+    console.log(get_data())
 
     //const { onAdd } = this.props;
     //const { onChangeAd1 } = this.props;
-
+    
     const { onAdd } = props;
     const { onChangeAdd } = props;
     let i =onChangeAdd["notes"].lenght

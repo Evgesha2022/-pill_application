@@ -9,23 +9,26 @@ export function get_data_tablets(id){
     return result
   }
   //export
-  export function get_data_profile(id){
-  
-    const result = data[id];
-
+  export function get_data(){
+    var data = JSON.parse(localStorage.getItem('user'))
+    const result = data;
+    
     return result
   }
-  export function post_data_profile(name, surname){
+  export function save_data_user(obj){
+  localStorage.setItem("user", obj);
+    return localStorage.getItem('user')
+  }
+  export function post_data_profile(name, surname,birthday){
     var obj = new Object()
-    obj[0] = {id: 859,
+    obj = {id: Math.random().toString(36).substring(7),
         name: name,
         surname: surname,
+        birthday: birthday,
         tablets: []}
-
-    data.push(obj);
-
-    var newJsonFileContent = JSON.stringify(data);
+    var newJsonFileContent = JSON.stringify(obj);
     return newJsonFileContent;
 }
+
+
 //console.log(get_data_profile(0))
-console.log(post_data_profile('Рита', "Вавикова"))
