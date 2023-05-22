@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { IconDisclosureRight, IconChevronDown, IconEdit } from '@salutejs/plasma-icons';
 
 import { Button, Card, Cell, Container, DeviceThemeProvider, H2, HeaderSubtitle, HeaderTitle, Headline1, Radiobox, Switch, TextField, } from '@salutejs/plasma-ui';
-import { post_data_profile } from '../data'
+import { post_data_profile } from '../data/data'
 import axios from '../axios.js';
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
@@ -13,7 +13,8 @@ function error() {
         let la =localStorage.getItem('user')
         let data =  JSON.parse(la)
         return data
-      } catch (SyntaxError) {
+      } 
+      catch (SyntaxError) {
         alert("Профиль заполнен с ошибкой")
         let data = post_data_profile('', '', '')
   
@@ -25,7 +26,7 @@ function error() {
 const Profile = () => {
     var abp =localStorage.getItem('abp');
     var ro = JSON.parse( localStorage.getItem("readonly"))
-    const [activeButton, setActiveButton] = useState(localStorage.getItem('user')? 'save' : 'edit');
+    const [activeButton, setActiveButton] = useState( JSON.parse(localStorage.getItem('user')).name=""? 'save' : 'edit');
     
 
 
@@ -65,11 +66,10 @@ const Profile = () => {
         setIsReadOnly(true);
         e.preventDefault();
   
-        data = post_data_profile(name, surname, birthday)
-        
-        localStorage.setItem("user", data);
-        localStorage.setItem("readonly", true);
+       post_data_profile(name, surname, birthday)
+
         data=error()
+        document.location.reload();
         /* axios.post('/profile', {
         name: name,
         surname:surname,

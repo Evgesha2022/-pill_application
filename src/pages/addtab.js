@@ -6,11 +6,12 @@ import {Button,Card, CardBody, CardContent, CardHeadline1, TextField} from '@sal
 import {IconCrossCircle} from "@salutejs/plasma-icons";
 import {  useState } from 'react';
 import axios from '../axios.js';
-import {get_data} from '../data.js'
-
+import {get_data, save_data_user} from '../data/data.js'
+import {addDaysToDate} from '../data/add_days'
+let data = get_data()
 
 export function AddTablet (props){
-    console.log(get_data())
+  console.log("data", data)
 
     //const { onAdd } = this.props;
     //const { onChangeAd1 } = this.props;
@@ -24,7 +25,21 @@ export function AddTablet (props){
         e.preventDefault();
         //console.log(onAdd)
         //console.log(onChangeAd1)
-        
+        var finish_date = addDaysToDate(start, period)
+        console.log("finish_date", finish_date)
+        var tablet = new Object();
+        tablet = {
+            name:name,
+            doza:doza,
+            start_date: start, 
+            finish_date:finish_date,
+            times: times,
+            condition:condition
+        }
+        data.tablets.push(tablet)
+        console.log(typeof start)
+        //localStorage.setItem("user", data);
+        save_data_user(data)
             window.location.href = '/';
             alert("Лекарство добавлено");
 
