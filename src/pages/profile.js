@@ -26,7 +26,7 @@ function error() {
 const Profile = () => {
     var abp =localStorage.getItem('abp');
     var ro = JSON.parse( localStorage.getItem("readonly"))
-    const [activeButton, setActiveButton] = useState( JSON.parse(localStorage.getItem('user')).name=""? 'save' : 'edit');
+    const [activeButton, setActiveButton] = useState( JSON.parse(localStorage.getItem('user')).name=""? 'edit' : 'save');
     
 
 

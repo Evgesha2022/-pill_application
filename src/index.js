@@ -6,7 +6,8 @@ import App from './App.js';
 import reportWebVitals from './reportWebVitals.js';
 import { DeviceThemeProvider } from '@salutejs/plasma-ui/components/Device/index.js'; // Типографика, имеющая размеры, зависимые от типа устройства
 import { GlobalStyle } from './GlobalStyle.jsx'; // Тема оформления (цветовая схема)
-
+import{create_base_user} from "./data/data.js"
+if(!localStorage.getItem('user')) {create_base_user()} 
 //const app =express();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -8,6 +8,7 @@ import {  useState } from 'react';
 import axios from '../axios.js';
 import {get_data, save_data_user} from '../data/data.js'
 import {addDaysToDate} from '../data/add_days'
+
 let data = get_data()
 
 export function AddTablet (props){
@@ -34,7 +35,8 @@ export function AddTablet (props){
             start_date: start, 
             finish_date:finish_date,
             times: times,
-            condition:condition
+            condition:condition,
+            period:period
         }
         data.tablets.push(tablet)
         console.log(typeof start)

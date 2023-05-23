@@ -8,7 +8,7 @@ import { AddTablet } from './addtab';
 import Axios from 'axios';
 
 
-function MedicationForm({ initialItems = {}, onSubmit, onCancel }) {
+function MedicationForm({ initialItems = {}, onSubmit, onCancel, data, index }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
@@ -21,11 +21,7 @@ function MedicationForm({ initialItems = {}, onSubmit, onCancel }) {
     };
     const handleSubmit = (e) => {   //здесь записываем данные в базу данных
         e.preventDefault();
-        Axios.post('http://localhost:3000/add-user', {
-            name: name,
-            surname: doza,
-            birthday: start
-        })
+
         closeModal();
     };
     let value = ''
@@ -51,6 +47,7 @@ function MedicationForm({ initialItems = {}, onSubmit, onCancel }) {
         newTimes.splice(index, 1);
         setItems({ ...items, time: newTimes });
         setTimes(newTimes);
+
     };
 
 
