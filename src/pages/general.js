@@ -7,7 +7,7 @@ import {
   DeviceThemeProvider, CarouselCol, Card, CardBody, CardContent
 } from '@salutejs/plasma-ui';
 import { useState } from 'react';
-
+import {get_time, get_tablets_in_day} from "../data/data"
 
 
 
@@ -32,7 +32,8 @@ function General() {
     .map(({ title, subtitle }, i) => ({
       title: `${days[getFutureDate(i).getDay()]} ${getFutureDate(i).toLocaleDateString()} `,
       subtitle: `${subtitle} `,
-      i: i
+      i: i,
+      tablets:get_tablets_in_day(getFutureDate(i))
     }));
 
   const axis = 'x';
@@ -48,7 +49,7 @@ function General() {
 
   return (
     <DeviceThemeProvider zIndex="99" >
-      <h2 align="center">Время {today.toLocaleString()}</h2>
+      <h2 align="center">Время {get_time()}</h2>
       <CarouselGridWrapper>
         <CarouselLite
           axis={axis}
@@ -58,14 +59,14 @@ function General() {
           detectActive detectThreshold={0.5}
           style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem', paddingStart: "0px", }}
         >
-          {items.map(({ title, subtitle }, i) => (
+          {items.map(({ title, subtitle, tablets }, i) => (
             <CarouselCol key={`item:${i}`} size={2} sizeXL={4} scrollSnapAlign="start" type="calc">
               <Card style={{ height: '420px', width: "90vw", margin: '10px' }} focused={i === index}>
                 <CardBody className="scrollbar1" style={{ overflowY: 'scroll' }} >
                   <CardContent >
                     {subtitle && <div style={{ fontSize: '12px', lineHeight: '20px' }}>{subtitle}</div>}
                     <div style={{ fontSize: '16px' }}>{title}</div>
-                    <FullCard posts={posts[i]} />
+                    <FullCard posts={tablets} />
                   </CardContent>
                 </CardBody>
               </Card>
@@ -78,26 +79,24 @@ function General() {
   );
 }
 
-
-
-
 function FullCard(props) {
-
+  console.log('get_tablets_in_day',props.posts[0] )
+  //console.log("date", daTe)
   let [isSubscribed, setIsSubscribed] = useState();
   let state = JSON.parse(localStorage.getItem("state")) || false;
   isSubscribed = state
-  console.log(isSubscribed)
+  //console.log(isSubscribed)
   state = (state == false) ? true : false;
   const handleChange = () => {
     state = (state == false) ? true : false;
-    localStorage.setItem("state", JSON.stringify(state));
-    setIsSubscribed(state);
+    //localStorage.setItem("state", JSON.stringify(state));
+    //setIsSubscribed(state);
   };
-  const content = props.posts.map((post) =>
-    <div key={post.id} >
-      <h3 >{post.name}            {post.time}
+  const content = props.posts.map((post, i) =>
+    <div key={i} >
+      <h3 >{post.name}            {post.times[0]}
         <Switch defaultChecked={false} onClick={
-          handleChange
+          handleChange()
         } checked={isSubscribed} />
       </h3>
       <p  >{post.doza}  {post.condition} </p>
@@ -118,13 +117,13 @@ function FullCard(props) {
 
 const posts = {
   0: [
-    { id: 1, name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
-    { id: 2, name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды" },
-    { id: 3, name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
-    { id: 4, name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды" }],
+    { name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
+    {name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды" },
+    {  name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
+    { name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды" }],
   1: [
-    { id: 1, name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
-    { id: 2, name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды", state: "0" }],
+    { name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
+    {  name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды", state: "0" }],
   2: [],
   3: [],
   4: [],
