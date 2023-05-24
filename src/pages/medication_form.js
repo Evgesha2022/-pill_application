@@ -6,33 +6,52 @@ import { IconPlus } from "@salutejs/plasma-icons";
 import { Button, Card, CardBody, CardContent, CarouselCol, CarouselGridWrapper, CarouselLite, H2, TextField, useRemoteHandlers, CardHeadline1, DeviceThemeProvider, H1, } from '@salutejs/plasma-ui';
 import { AddTablet } from './addtab';
 import Axios from 'axios';
+import {get_data, save_data_user} from '../data/data.js'
+import {addDaysToDate} from '../data/add_days'
+function MedicationForm({ initialItems, onSubmit, onCancel, data, index, alldata }) {//data уже приходит сразу изменяемая таблетка
 
-
-function MedicationForm({ initialItems = {}, onSubmit, onCancel, data, index }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    const [times, setTimes] = useState(data.times);
+    //data.times массив с временами приема
+    const newTimes1 = [...data.times];
+    const [items, setItems] = useState(newTimes1)
     const openModal = () => {
         setModalIsOpen(true);
+        setItems({ ...items, time: newTimes1 });
     };
-
+    
     const closeModal = () => {
         setTimes('');
         setModalIsOpen(false);
     };
     const handleSubmit = (e) => {   //здесь записываем данные в базу данных
         e.preventDefault();
-
+        var finish_date = addDaysToDate(start, period)
+        data.name = name
+        data.doza=doza
+        data.period=period
+        data.start_date=start
+        data.times=times
+        data.condition=condition
+        data.finish_date= finish_date
+        alldata.tablets[index]=data
+        save_data_user(alldata)
+        console.log(alldata)
+        localStorage.setItem("alltabindexcarousel", index)
+        //changedata.name = name
         closeModal();
+        document.location.reload();//чтобы получить новые данные из локального хранилища
     };
     let value = ''
-    const [items, setItems] = useState(value)
+    
 
-    const [name, setName] = useState(value);
-    const [doza, setDoza] = useState(value);
-    const [period, setPeriod] = useState(value);
-    const [start, setStart] = useState(value);
-    const [times, setTimes] = useState([]);
-    const [condition, setCondition] = useState(value);
+    const [name, setName] = useState(data.name);
+    const [doza, setDoza] = useState(data.doza);
+    const [period, setPeriod] = useState(data.period);
+    const [start, setStart] = useState(data.start_date);
+    
+    //setItems({ ...items, time: newTimes1 });
+    const [condition, setCondition] = useState(data.condition);
 
     const handleChangeTime = (event, index) => {
         const { name, value } = event.target;
@@ -71,18 +90,18 @@ function MedicationForm({ initialItems = {}, onSubmit, onCancel, data, index }) 
                                 </CardHeadline1>
                                 <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transition: 'height 0.5s ease-out' }}>
                                     <TextField style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }} name="title" onChange={(e) => { setName(e.target.value) }} placeholder="Название лекарства"
-                                        required />
+                                        required value={name}/>
                                     <TextField
                                         style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
                                         type='date'
                                         name={`date`}
                                         onChange={(e) => { setStart(e.target.value) }}
-                                        placeholder="Дата начала приёма" />
+                                        placeholder="Дата начала приёма" value={start}/>
                                     <TextField
                                         style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
 
                                         onChange={(e) => { setPeriod(e.target.value) }}
-                                        placeholder="Период приема" />
+                                        placeholder="Период приема" value={period}/>
                                     {items && items.time && items.time.map((time, index) => (
                                         <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '20px', fontSize: '20px' }}>
 
@@ -103,8 +122,8 @@ function MedicationForm({ initialItems = {}, onSubmit, onCancel, data, index }) 
                                     ))}
 
                                     <Button view='primary' style={{ marginBottom: '26px', width: '200px' }} onClick={() => setItems({ ...items, time: [...times, ''] })}>Добавить время</Button>
-                                    < TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="doza" onChange={(e) => { setDoza(e.target.value) }} placeholder="Дозировка" required />
-                                    <TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="condition" onChange={(e) => { setCondition(e.target.value) }} placeholder="Условия приёма" />
+                                    < TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="doza" onChange={(e) => { setDoza(e.target.value) }} placeholder="Дозировка" required value={doza}/>
+                                    <TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="condition" onChange={(e) => { setCondition(e.target.value) }} placeholder="Условия приёма" value={condition}/>
                                 </div>
                                 <div style={{ display: 'flex', width: '90vw', justifyContent: 'space-evenly', marginTop: '36px' }}>
                                     <Button view='primary' style={{ width: '120px' }} type="submit" onClick={handleSubmit}>{'Сохранить'}</Button>

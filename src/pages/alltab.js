@@ -9,6 +9,8 @@ import Axios from 'axios';
 import { MedicationForm } from './medication_form';
 import {get_data, save_data_user} from '../data/data.js'
 import{Error_Alltab} from '../data/find_error'
+
+//(!localStorage.getItem('alltabindexcarousel')) ? localStorage.setItem("alltabindexcarousel", 0) : index=parseInt(localStorage.getItem('alltabindexcarousel'))
 function AllTab() {
     let data = get_data()
     
@@ -19,7 +21,7 @@ function AllTab() {
     const axis = 'x';
 
     const [index] = useRemoteHandlers({
-        initialIndex: 0,
+        initialIndex: (!localStorage.getItem('alltabindexcarousel')) ? 0  : parseInt(localStorage.getItem('alltabindexcarousel')),
         axis,
         delay: 30,
         longDelay: 200,
@@ -28,16 +30,17 @@ function AllTab() {
     });
 
 
-
+    
     const handleDelete = (index) => {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
         data.tablets.splice(index, 1);
         save_data_user(data)
+        
 
     };
-
+    localStorage.setItem("alltabindexcarousel", 0)
     return (
         <DeviceThemeProvider zIndex="99">
             <h2 align="center">Добавленные лекарства</h2>
@@ -60,7 +63,7 @@ function AllTab() {
                                     <CardContent className='med__content' style={{ display: 'flex', justifyContent: 'space-between', marginLeft: '20px' }}>
 
                                         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'end' }}>
-                                            <MedicationForm index={i}></MedicationForm>
+                                            <MedicationForm index={i} data={items[i]} alldata={data}></MedicationForm>
                                             <div style={{ margin: '0 16px', cursor: 'pointer', marginRight: '0px' }} onClick={() => handleDelete(i)}>
                                                 <Button size='s' pin="circle-circle" color="inherit" contentLeft={<IconCross size='s' />} className='med__icon'></Button>
                                             </div>
