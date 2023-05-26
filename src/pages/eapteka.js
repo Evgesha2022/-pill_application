@@ -23,7 +23,7 @@ function Eapteka() {
     delay: 30,
     longDelay: 200,
     min: 0,
-    max: Error_Alltab(items) - 1,
+    max: Error_Alltab(items) ,
   });
 
 

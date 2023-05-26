@@ -56,7 +56,7 @@ function General() {
           axis={axis}
           index={index}
           scrollMode="scroll"
-          scrollSnapType="mandatory"
+         scrollSnapType="mandatory"
           detectActive detectThreshold={0.5}
           style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem', paddingStart: "0px", }}
         >

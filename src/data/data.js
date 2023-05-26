@@ -145,5 +145,22 @@ export function array_states(tablets){
   
   return states_pills
 }
+
+export function delete_tablets_in_states(tablet){
+  var state_all =get_data_states()
+  
+  var new_state_all = Object.assign([], state_all);
+  let state = find_state(tablet, state_all)
+  state_all.find(function(item) {
+
+    //console.log("id",item.id === obj.id)
+    //console.log(item.id)
+  var first_cond = item.id === tablet.id;
+  console.log(item.id, tablet.id, first_cond )
+    if(first_cond){new_state_all.splice(state_all.indexOf(item), 1); console.log("delete")}
+  });
+  console.log(new_state_all)
+  save_data_states(new_state_all)
+}
 //get_tablets_in_day( new Date())
 //console.log(get_data_profile(0))

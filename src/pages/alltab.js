@@ -7,7 +7,7 @@ import { Button, Card, CardBody, CardContent, CarouselCol, CarouselGridWrapper, 
 import { AddTablet } from './addtab';
 import Axios from 'axios';
 import { MedicationForm } from './medication_form';
-import {get_data, save_data_user} from '../data/data.js'
+import {get_data, save_data_user, delete_tablets_in_states} from '../data/data.js'
 import{Error_Alltab} from '../data/find_error'
 
 //(!localStorage.getItem('alltabindexcarousel')) ? localStorage.setItem("alltabindexcarousel", 0) : index=parseInt(localStorage.getItem('alltabindexcarousel'))
@@ -26,7 +26,7 @@ function AllTab() {
         delay: 30,
         longDelay: 200,
         min: 0,
-        max: Error_Alltab(items) - 1,//Error_Alltab(items)
+        max: Error_Alltab(items) ,//Error_Alltab(items)
     });
 
 
@@ -35,19 +35,15 @@ function AllTab() {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
+        delete_tablets_in_states(data.tablets[index])
         data.tablets.splice(index, 1);
         save_data_user(data)
-        
-
     };
     localStorage.setItem("alltabindexcarousel", 0)
     return (
         <DeviceThemeProvider zIndex="99">
             <h2 align="center">Добавленные лекарства</h2>
-            <CarouselGridWrapper style={{
-                position: 'relative',
-
-            }}>
+            <CarouselGridWrapper >
                 <CarouselLite
                     axis={axis}
                     index={index}
