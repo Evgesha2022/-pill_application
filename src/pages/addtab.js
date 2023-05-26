@@ -12,16 +12,16 @@ import {addDaysToDate} from '../data/add_days'
 let data = get_data()
 
 export function AddTablet (props){
-  console.log("data", data)
 
+    var today = (new Date()).toLocaleDateString();
     //const { onAdd } = this.props;
     //const { onChangeAd1 } = this.props;
     
     const { onAdd } = props;
     const { onChangeAdd } = props;
     let i =onChangeAdd["notes"].lenght
-    console.log(i)
-    console.log(onChangeAdd)
+
+    //console.log(onChangeAdd)
  const handleSubmit = (e) => {//здесь записываем данные в базу данных
         e.preventDefault();
         //console.log(onAdd)
@@ -30,6 +30,7 @@ export function AddTablet (props){
         console.log("finish_date", finish_date)
         var tablet = new Object();
         tablet = {
+            id: Math.random().toString(36).substring(7),
             name:name,
             doza:doza,
             start_date: start, 
@@ -88,11 +89,13 @@ export function AddTablet (props){
                                         style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
                                         type='date'
                                         name={`date`}
+                                        helperText={`Сегодня ${today}`}
                                         onChange={(e) => {setStart(e.target.value)}}
                                         placeholder="Дата начала приёма"/>
                           <TextField
                                         style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
-                                        
+                                        type='number'
+                                        helperText='Введите число'
                                         onChange={(e) => {setPeriod(e.target.value)}}
                                         placeholder="Период приема"/>
                           {items && items.time && items.time.map((time, index) => (
@@ -115,8 +118,8 @@ export function AddTablet (props){
                             ))}
 
                             <Button view='primary' style={{ alignSelf: 'center', marginBottom: '26px', width: '200px' }} onClick={() => setItems({ ...items, time: [...times, ''] })}>Добавить время</Button>
-                          < TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="doza" onChange={(e) => {setDoza(e.target.value)}}  placeholder="Дозировка" required />
-                          <TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="condition"  onChange={(e) => {setCondition(e.target.value)}} placeholder="Условия приёма" />
+                          < TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} helperText='1 таблетка | 1 капсула | 1 ампула' name="doza" onChange={(e) => {setDoza(e.target.value)}}  placeholder="Дозировка" required />
+                          <TextField style={{ paddingBottom: '20px', fontSize: '20px', width: '680px' }} name="condition" helperText='до еды | во время еды | после еды | после пробежки'  onChange={(e) => {setCondition(e.target.value)}} placeholder="Условия приёма" />
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '36px' }}>
                           <Button view='primary' style={{ width: '120px' }} type="submit" onClick={handleSubmit}>{'Добавить'}</Button>

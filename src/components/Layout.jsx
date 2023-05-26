@@ -16,12 +16,12 @@ const Layout =  () =>{
         <>
       <div className="parent" >
         <ul  >
-            <li  class="left"> <Link  to='/'><Button  pin="circle-circle" contentLeft={<IconApps/>} 
+            <li  className="left"> <Link  to='/'><Button  pin="circle-circle" contentLeft={<IconApps/>} 
      /></Link></li>
-    <li class="left" ><Link   to='/tablets'><Button   pin="circle-circle" contentLeft={<IconHeart/>} /></Link></li>
-    <li class="right"><Link to='/profile'><Button  pin="circle-circle"  contentLeft={<IconAvatar/>}/></Link></li>
-    <li class="right"><Link  to='/eapteka'><Button   pin="circle-circle" contentLeft={<IconCartAlt/>} /></Link></li>
-    <li class="right"><Link  to={'/addtablet'}><Button  pin="circle-circle" contentLeft={<IconPlus/>} /></Link></li>
+    <li className="left" ><Link   to='/tablets'><Button   pin="circle-circle" contentLeft={<IconHeart/>} /></Link></li>
+    <li className="right"><Link to='/profile'><Button  pin="circle-circle"  contentLeft={<IconAvatar/>}/></Link></li>
+    <li className="right"><Link  to='/eapteka'><Button   pin="circle-circle" contentLeft={<IconCartAlt/>} /></Link></li>
+    <li className="right"><Link  to={'/addtablet'}><Button  pin="circle-circle" contentLeft={<IconPlus/>} /></Link></li>
     </ul>
     </div>
     <Outlet/>

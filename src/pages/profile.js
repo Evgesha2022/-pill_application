@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import { IconDisclosureRight, IconChevronDown, IconEdit } from '@salutejs/plasma-icons';
+import {  IconEdit } from '@salutejs/plasma-icons';
 
-import { Button, Card, Cell, Container, DeviceThemeProvider, H2, HeaderSubtitle, HeaderTitle, Headline1, Radiobox, Switch, TextField, } from '@salutejs/plasma-ui';
+import { Button,  DeviceThemeProvider,  HeaderSubtitle, TextField } from '@salutejs/plasma-ui';
 import { post_data_profile } from '../data/data'
-import axios from '../axios.js';
+//import axios from '../axios.js';
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
 
@@ -24,13 +24,11 @@ function error() {
   }
   let data = error()
 const Profile = () => {
-    var abp =localStorage.getItem('abp');
-    var ro = JSON.parse( localStorage.getItem("readonly"))
     const [activeButton, setActiveButton] = useState( JSON.parse(localStorage.getItem('user')).name=""? 'edit' : 'save');
-    
+    //if(abp=="save"){toggleReadOnly()}
 
 
-    const [isReadOnly, setIsReadOnly] = useState(localStorage.getItem('abp') ? ro : false);
+    const [isReadOnly, setIsReadOnly] = useState(localStorage.getItem('abp') ? true : false);
     
     const handleEdit = (e) => {
         setActiveButton('edit');
@@ -75,7 +73,15 @@ const Profile = () => {
         surname:surname,
         birthday:birthday });*/
     };
-
+    function toggleReadOnly() {
+      var input = document.getElementById("name");
+      
+      if (input.hasAttribute("readonly")) {
+        input.removeAttribute("readonly");
+      } else {
+        input.setAttribute("readonly", "readonly");
+      }
+    }
 
 
     return (
@@ -89,7 +95,7 @@ const Profile = () => {
                 <div className='profile__edited' style={{ alignItems: 'center', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
 
                     <HeaderSubtitle className='profile__text' >Имя</HeaderSubtitle>
-                    <TextField style={{ width: '30vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text' value={name}></TextField>
+                    <TextField id="name" style={{ width: '30vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text' value={name}></TextField>
 
                     <HeaderSubtitle className='profile__text'>Фамилия</HeaderSubtitle>
                     <TextField onChange={(e) => { setSurname(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою фамилию'} readOnly={isReadOnly} type='text' value={surname} ></TextField>
