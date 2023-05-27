@@ -99,7 +99,8 @@ function MedicationForm({ initialItems, onSubmit, onCancel, data, index, alldata
                                         placeholder="Дата начала приёма" value={start}/>
                                     <TextField
                                         style={{ fontSize: '20px', width: '680px', paddingBottom: '20px' }}
-
+                                        type='number'
+                                        helperText='Введите число'
                                         onChange={(e) => { setPeriod(e.target.value) }}
                                         placeholder="Период приема" value={period}/>
                                     {items && items.time && items.time.map((time, index) => (

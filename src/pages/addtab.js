@@ -19,7 +19,7 @@ export function AddTablet (props){
     
     const { onAdd } = props;
     const { onChangeAdd } = props;
-    let i =onChangeAdd["notes"].lenght
+    //let i =onChangeAdd["notes"].lenght
 
     //console.log(onChangeAdd)
  const handleSubmit = (e) => {//здесь записываем данные в базу данных
@@ -40,9 +40,9 @@ export function AddTablet (props){
             period:period
         }
         data.tablets.push(tablet)
-        console.log(typeof start)
+        console.log(data)
         //localStorage.setItem("user", data);
-        save_data_user(data)
+        //save_data_user(data)
             window.location.href = '/';
             alert("Лекарство добавлено");
 

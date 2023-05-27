@@ -47,10 +47,10 @@ function General() {
     min: 0,
     max: items.length - 1,
   });
-
+  var time = get_time(today)
   return (
     <DeviceThemeProvider zIndex="99" >
-      <h2 align="center">Время {get_time()}</h2>
+      <h2 align="center">Время {time}</h2>
       <CarouselGridWrapper>
         <CarouselLite
           axis={axis}
@@ -149,23 +149,6 @@ function FullCard(props) {
 
 
 
-
-
-const posts = {
-  0: [
-    { name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
-    {name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды" },
-    {  name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
-    { name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды" }],
-  1: [
-    { name: 'Афобазол', doza: '2 таблетки', time: "12:00", condition: "во время еды", state: "0" },
-    {  name: 'Цитрамон', doza: '1 таблетка', time: "14:00", condition: "после еды", state: "0" }],
-  2: [],
-  3: [],
-  4: [],
-  5: [],
-  6: []
-};
 
 function getFutureDate(days) {
   var now = new Date();

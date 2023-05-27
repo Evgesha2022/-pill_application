@@ -1,4 +1,4 @@
-
+import {addDaysToDate} from "./add_days"
 
 let data = require('../data.json');
 //let i = data.length()
@@ -43,8 +43,8 @@ export function get_data_tablets(id){
     obj.birthday=birthday
     save_data_user(obj)
 }
-export function get_time(){
-  var today = new Date();
+export function get_time(today){
+ 
 var hours = (today.getHours().length<=1) ? "0"+today.getHours() : today.getHours();
 
 var minutes = (today.getMinutes().toString().length===1) ? "0"+today.getMinutes() : today.getMinutes();
@@ -52,6 +52,28 @@ var minutes = (today.getMinutes().toString().length===1) ? "0"+today.getMinutes(
 var timeWithoutSeconds = hours + ':' + minutes;
 return timeWithoutSeconds
 }
+export function add_tablet_base(name,period,  doza,date_start, finish_date, times, condition ){
+  let data = get_data()
+  //var finish_date = addDaysToDate(date_start, period)
+  var tablet = new Object();
+        tablet = {
+            id: Math.random().toString(36).substring(7),
+            name:name,
+            doza:doza,
+            start_date: date_start, 
+            finish_date:finish_date,
+            times: times,
+            condition:condition,
+            period:period
+        }
+        data.tablets.push(tablet)
+        console.log(typeof start)
+        //localStorage.setItem("user", data);
+        save_data_user(data)
+        window.location.href = '/';
+        alert("Лекарство добавлено");
+}
+
 export function get_tablets_in_day(date)
 {
   let data = get_data()
@@ -139,7 +161,8 @@ export function array_states(tablets){
   tablets.forEach(function(element) {
   let state = find_state(element, state_all)
 
-    if (state!==-1) {states_pills[i]=true} 
+    if (state!==-1) {states_pills[i]=true}
+    
     i++
   });
   
@@ -161,6 +184,21 @@ export function delete_tablets_in_states(tablet){
   });
   console.log(new_state_all)
   save_data_states(new_state_all)
+}
+
+export function check_old_data(){
+  var state_all =get_data_states();
+  var today = new Date();
+  var tablets_in_day =get_tablets_in_day(today)
+  tablets_in_day.forEach(function(element) {
+    let state = find_state(element, state_all)
+  
+     // if (state!==-1) {states_pills[i]=true}
+      
+     // i++
+    });
+  console.log("все состояния", state_all)
+  console.log("все таблетки на сегодня",tablets_in_day )
 }
 //get_tablets_in_day( new Date())
 //console.log(get_data_profile(0))
