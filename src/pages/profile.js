@@ -1,31 +1,47 @@
 
 import React, { useState } from 'react';
-import { IconDisclosureRight, IconChevronDown, IconEdit } from '@salutejs/plasma-icons';
-import './profile.css'
-import { Button, Card, Cell, Container, DeviceThemeProvider, H2, HeaderSubtitle, HeaderTitle, Headline1, Radiobox, Switch, TextField, } from '@salutejs/plasma-ui';
-import { post_data_profile } from '../data'
-import axios from '../axios.js';
+import {  IconEdit } from '@salutejs/plasma-icons';
+
+import { Button,  DeviceThemeProvider,  HeaderSubtitle, TextField } from '@salutejs/plasma-ui';
+import { post_data_profile } from '../data/data'
+//import axios from '../axios.js';
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
 
-
+function error() {
+   try {
+        let la =localStorage.getItem('user')
+        let data =  JSON.parse(la)
+        return data
+      } 
+      catch (SyntaxError) {
+        alert("Профиль заполнен с ошибкой")
+        let data = post_data_profile('', '', '')
+  
+        return data
+      }
+    
+  }
+  let data = error()
 const Profile = () => {
+    const [activeButton, setActiveButton] = useState( JSON.parse(localStorage.getItem('user')).name=""? 'edit' : 'save');
+    //if(abp=="save"){toggleReadOnly()}
 
-    let id = "6465e2da3aced2480cef29af"
-    const [activeButton, setActiveButton] = useState('edit');
 
-    const [isReadOnly, setIsReadOnly] = useState(false);
-
+    const [isReadOnly, setIsReadOnly] = useState(localStorage.getItem('abp') ? true : false);
+    
     const handleEdit = (e) => {
         setActiveButton('edit');
+        localStorage.setItem("abp", 'edit');
         setIsReadOnly(false);
     };
-
     let value = '';
 
-    const [name, setName] = useState(value);
-    const [surname, setSurname] = useState(value);
-    const [birthday, setBirthdate] = useState(value);
+    
+    const [name, setName] = useState(localStorage.getItem('user') ? data.name : value);
+    const [surname, setSurname] = useState(localStorage.getItem('user') ? data.surname : value);
+    const [birthday, setBirthdate] = useState(localStorage.getItem('user') ? data.birthday : value);
+ 
     /*axios.get(`/profile/${id}`)
   .then(function (response) {
     const dataa = response.data;
@@ -44,22 +60,28 @@ const Profile = () => {
 
     const handleSubmit = (e) => {
         setActiveButton('save');
+        localStorage.setItem("abp", 'save');
         setIsReadOnly(true);
         e.preventDefault();
-        console.log({
-            name: name,
-            surname: surname,
-            birthday: birthday
-        })
-        let data = post_data_profile(name, surname)
-        console.log(data)
-        /* axios.post('/profile', {
-    name: name,
-    surname:surname,
-    birthday:birthday
-         });*/
-    };
+  
+       post_data_profile(name, surname, birthday)
 
+        data=error()
+        document.location.reload();
+        /* axios.post('/profile', {
+        name: name,
+        surname:surname,
+        birthday:birthday });*/
+    };
+    function toggleReadOnly() {
+      var input = document.getElementById("name");
+      
+      if (input.hasAttribute("readonly")) {
+        input.removeAttribute("readonly");
+      } else {
+        input.setAttribute("readonly", "readonly");
+      }
+    }
 
 
     return (
@@ -73,13 +95,13 @@ const Profile = () => {
                 <div className='profile__edited' style={{ alignItems: 'center', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
 
                     <HeaderSubtitle className='profile__text' >Имя</HeaderSubtitle>
-                    <TextField style={{ width: '30vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text'></TextField>
+                    <TextField id="name" style={{ width: '30vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text' value={name}></TextField>
 
                     <HeaderSubtitle className='profile__text'>Фамилия</HeaderSubtitle>
-                    <TextField onChange={(e) => { setSurname(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою фамилию'} readOnly={isReadOnly} type='text'></TextField>
+                    <TextField onChange={(e) => { setSurname(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою фамилию'} readOnly={isReadOnly} type='text' value={surname} ></TextField>
 
                     <HeaderSubtitle className='profile__text'>Дата рождения</HeaderSubtitle>
-                    <TextField onChange={(e) => { setBirthdate(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою дату рождения'} readOnly={isReadOnly} type="date" id="birthday" name="birthday" ></TextField>
+                    <TextField  onChange={(e) => { setBirthdate(e.target.value) }} style={{ width: '30vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою дату рождения'} readOnly={isReadOnly} type="date" id="birthday" name="birthday" value={birthday}></TextField>
 
                 </div>
 

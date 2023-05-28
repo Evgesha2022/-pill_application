@@ -4,13 +4,13 @@ import { Button, Card, CardBody, CardContent, CarouselCol, CarouselGridWrapper, 
 import { } from '@salutejs/plasma-ui/components/ProductCard/ProductCardStepper.js';
 import '../App.css'
 import axios from 'axios';
-
+import {get_data, save_data_user} from '../data/data.js'
+import{Error_Alltab} from '../data/find_error'
 function Eapteka() {
+  let data = get_data()
+    
+  const initialItems = data.tablets
 
-  const initialItems = [
-    { id: 1, title: 'Афобазол', doza: '2 таблетки', period: '', start: '', time: ['12:00'], condition: 'во время еды', state: "0" },
-    { id: 2, title: 'Цитрамон', doza: '1 таблетка', period: '', start: '', time: ['14:00'], condition: 'после еды', state: "0" },
-  ];
 
   const [items, setItems] = useState(initialItems);
 
@@ -23,7 +23,7 @@ function Eapteka() {
     delay: 30,
     longDelay: 200,
     min: 0,
-    max: items.length - 1,
+    max: Error_Alltab(items) ,
   });
 
 
@@ -39,7 +39,7 @@ function Eapteka() {
           scrollSnapType="mandatory"
           detectActive detectThreshold={0.5}
           style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem', paddingStart: "0px" }}>
-          {items.map(({ title }, i) => (
+          {items.map(({ name }, i) => (
             <CarouselCol key={`item:${i}`} size={3} sizeXL={4} scrollSnapAlign="center">
               <Card style={{ height: '180px', width: '20vw', margin: '16px' }} focused={i === index}>
                 <CardBody>
@@ -49,7 +49,7 @@ function Eapteka() {
                     <Badge size='l' style={{ marginTop: '0.25em', marginBottom: '1.5em' }} text='Из списка лекарств' />
 
                     <TextBox style={{ alignItems: 'center' }}>
-                      <H1 style={{ fontSize: '16px' }}>{title}</H1>
+                      <H1 style={{ fontSize: '16px' }}>{name}</H1>
                     </TextBox>
 
                     <Button view='primary'
@@ -57,7 +57,7 @@ function Eapteka() {
                       contentRight={<IconCart />}
                       size="s"
 
-                      onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(title))}
+                      onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}
 
 
                       stretch style={{ marginTop: '3em' }} tabIndex={-1} />
