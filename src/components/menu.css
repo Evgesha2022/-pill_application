@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    .parent ul li {
+        flex-basis: calc(25% - 6px);
+        margin: 0 0px;
+    }
+}
