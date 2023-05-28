@@ -43,8 +43,8 @@ export function get_data_tablets(id){
     obj.birthday=birthday
     save_data_user(obj)
 }
-export function get_time(today){
- 
+export function get_time(today1){
+let today = new Date(today1)
 var hours = (today.getHours().length<=1) ? "0"+today.getHours() : today.getHours();
 
 var minutes = (today.getMinutes().toString().length===1) ? "0"+today.getMinutes() : today.getMinutes();
@@ -52,18 +52,18 @@ var minutes = (today.getMinutes().toString().length===1) ? "0"+today.getMinutes(
 var timeWithoutSeconds = hours + ':' + minutes;
 return timeWithoutSeconds
 }
-export function add_tablet_base(name,period,  doza,date_start, finish_date, times, condition ){
+export function add_tablet_base(id, name,period,  doza,date_start, finish_date, times, condition ){
   let data = get_data()
   //var finish_date = addDaysToDate(date_start, period)
   var tablet = new Object();
         tablet = {
-            id: Math.random().toString(36).substring(7),
-            name:name,
+            id: id,
+            name:(name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()),
             doza:doza,
             start_date: date_start, 
             finish_date:finish_date,
             times: times,
-            condition:condition,
+            condition:condition.toUpperCase(),
             period:period
         }
         data.tablets.push(tablet)
@@ -83,11 +83,14 @@ export function get_tablets_in_day(date)
   tablets.forEach(function(element) {
     var startDate = new Date(element.start_date);
     var endDate = new Date(element.finish_date);
+    
+    
     startDate.setDate(startDate.getDate()-1)
+
     if(date >= startDate && date <= endDate) {
       element.times.forEach(function(element1){
         var addtablet=Object.assign([], element);
-
+        
         addtablet.times=[element1]
         ans.push(addtablet)
 
@@ -152,6 +155,49 @@ export function delete_state(index, state_all){
   console.log("delete")
   return state_all
 }
+
+export function delete_all_pils(name){
+  //console.log("index", index)
+  let data = get_data()
+  var data_tablets = new Array(data.tablets)
+  var lowercaseName = name.toLowerCase(); // приводим искомое значение к нижнему регистру
+  for (var i = 0; i < data_tablets.length; i++) {
+    var lowercaseElement = data_tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
+    if (lowercaseElement === lowercaseName) {
+      data_tablets.splice(i, 1)
+      console.log("delete_tablet")
+      data.tablets=data_tablets
+      save_data_user(data)
+      return 1;
+    }
+  }
+  console.log("not_found")
+  return 0
+}
+
+export function delete_tablet_one_time(name, time){
+  //console.log("index", index)
+  let data = get_data()
+  var data_tablets = new Array(data.tablets)
+  var lowercaseName = name.toLowerCase(); // приводим искомое значение к нижнему регистру
+  for (var i = 0; i < data_tablets.length; i++) {
+    var lowercaseElement = data_tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
+    if (lowercaseElement === lowercaseName) {
+      for (var j = 0; j < data_tablets[i].times.length; i++){
+        if(data_tablets[i].times[j]===get_time(time)){
+          data_tablets[i].times.splice(j, 1)
+          console.log("delete_tablet_one_time")
+          data.tablets=data_tablets
+          save_data_user(data)
+          return 1;
+        }
+      };
+    }
+  }
+  console.log("not_found")
+  return 0
+}
+
 
 export function array_states(tablets){
   var state_all =get_data_states()

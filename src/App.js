@@ -9,7 +9,7 @@ import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import {Layout} from './components/Layout.jsx'
 import{addDaysToDate} from './data/add_days'
-import {get_data_tablets, check_old_data, add_tablet_base, get_time} from "./data/data.js"
+import {get_data_tablets, check_old_data, add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data} from "./data/data.js"
 import {createSmartappDebugger,
   createAssistant} from "@salutejs/client";
 
@@ -40,9 +40,8 @@ check_old_data()
     constructor(props) {
       super(props);
       console.log('constructor');
-  
       this.state = {
-        tablets: [],
+        tablets: get_data().tablets,
       }
       console.log("our state", this.state)
       this.assistant = initializeAssistant(() => this.getStateForAssistant());
@@ -88,6 +87,10 @@ check_old_data()
             return this.add_tablet(action);
           case 'add_user':
             return this.add_user(action);
+          case 'delete_all_pils':
+            return this.delete_all_pils(action);
+          case 'delete_tablet_one_time':
+            return this.delete_tablet_one_time(action);
           default:
             throw new Error();
         }
@@ -98,11 +101,13 @@ add_tablet (action) {
       //console.log('start', action.name);
       console.log('add_tablet', action)
       var finish_date = addDaysToDate(action.date_start.value, action.period)
-      var start = new Date(action.date_start.value)
+      var start = new Date(action.date_start.value).toISOString().split("T")[0];
+      let id = Math.random().toString(36).substring(7)
       if (action.name != undefined){
       this.setState({
           tablets: [
             {
+            id: id, 
             name:    action.name,
             start_date: start,
             finish_date:finish_date
@@ -111,16 +116,14 @@ add_tablet (action) {
           ],
       })
       var condition =""
-      var times =[]
-      action.times.forEach(function(element){
+      var times =[get_time(action.times.value)]
+      /*action.times.forEach(function(element){
         var time =new Date(element.value)
         get_time(time)
         times.push(get_time(time))
 
-      })
-      add_tablet_base( action.name, action.period,action.doza,start, finish_date, times, condition  )
-
-
+      })*/
+      add_tablet_base(id,  action.name, action.period,action.doza,start, finish_date, times, action.condition  )
     }
     
   }
@@ -140,7 +143,55 @@ add_tablet (action) {
   }
   console.log("tablets", this.state.tablets)
 }
+delete_all_pils(action){
+  console.log('delete_all_pils', action)
+      if (action.name != undefined){
+      /*this.setState({ проработать уделение и здесь
+          tablets: [
+            {
+            name:    action.name,
+            start_date: start,
+            finish_date:finish_date
+            },
+            ...this.state.tablets.slice(1),
+          ],
+      })*/
+      //var condition =""
+      //var times =[get_time(action.times.value)]
+      /*action.times.forEach(function(element){
+        var time =new Date(element.value)
+        get_time(time)
+        times.push(get_time(time))
 
+      })*/
+      delete_all_pils( action.name)
+    }
+}
+
+delete_tablet_one_time(action){
+  console.log('delete_tablet_one_time', action)
+      if (action.name != undefined){
+      /*this.setState({ проработать уделение и здесь
+          tablets: [
+            {
+            name:    action.name,
+            start_date: start,
+            finish_date:finish_date
+            },
+            ...this.state.tablets.slice(1),
+          ],
+      })*/
+      //var condition =""
+      //var times =[get_time(action.times.value)]
+      /*action.times.forEach(function(element){
+        var time =new Date(element.value)
+        get_time(time)
+        times.push(get_time(time))
+
+      })*/
+      delete_tablet_one_time( action.name, action.time.value)
+    }
+}
 
     render() {
       console.log('render');
