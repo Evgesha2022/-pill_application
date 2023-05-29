@@ -63,7 +63,7 @@ export function add_tablet_base(id, name,period,  doza,date_start, finish_date, 
             start_date: date_start, 
             finish_date:finish_date,
             times: times,
-            condition:condition.toUpperCase(),
+            condition:(condition.charAt(0).toLowerCase() + condition.slice(1).toLowerCase()),
             period:period
         }
         data.tablets.push(tablet)

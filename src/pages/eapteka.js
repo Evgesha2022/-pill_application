@@ -43,17 +43,14 @@ function Eapteka() {
           style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem', paddingStart: "0px" }}>
           {items.map(({ name }, i) => (
             <CarouselCol key={`item:${i}`} size={3} sizeXL={4} scrollSnapAlign="center">
-              <Card class="product_card" style={{ height: "180px", width: window.innerWidth >= 768 ? "50vw" : "70vw", margin: "16px" }} focused={i === index}>
+              <Card className="product_card" style={{ height: "180px", width: window.innerWidth >= 768 ? "50vw" : "70vw", margin: "16px" }} focused={i === index}>
                 <CardBody>
 
                   <CardContent style={{ textAlign: 'center' }}>
-
                     <Badge size='l' style={{ marginTop: '0.25em', marginBottom: '1.5em' }} text='Из списка лекарств' />
-
                     <TextBox style={{ alignItems: 'center' }}>
                       <H1 style={{ fontSize: '20px' }}>{name}</H1>
                     </TextBox>
-
                     <Button view='primary'
                       text="Заказать на ЕАПТЕКА"
                       contentRight={<IconCart />}
