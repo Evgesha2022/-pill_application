@@ -8,7 +8,7 @@ import { useState } from 'react';
 import axios from '../axios.js';
 import { get_data, save_data_user } from '../data/data.js'
 import { addDaysToDate } from '../data/add_days'
-
+import{check_finish_date}from '../data/data.js'
 let data = get_data()
 
 export function AddTablet(props) {
@@ -25,8 +25,10 @@ export function AddTablet(props) {
     const handleSubmit = (e) => {//здесь записываем данные в базу данных
         e.preventDefault();
         //console.log(onAdd)
-        //console.log(onChangeAd1)
+        console.log(start)
+        
         var finish_date = addDaysToDate(start, period)
+        
         console.log("finish_date", finish_date)
         var tablet = new Object();
         tablet = {
@@ -41,10 +43,9 @@ export function AddTablet(props) {
         }
         data.tablets.push(tablet)
         console.log(data)
-        //localStorage.setItem("user", data);
-        //save_data_user(data)
+        localStorage.setItem("user", data);
+        save_data_user(data)
         window.location.href = '/';
-        alert("Лекарство добавлено");
 
     };
     let value = ''
@@ -88,6 +89,7 @@ export function AddTablet(props) {
                                 type='date'
                                 name={`date`}
                                 helperText={`Сегодня ${today}`}
+                                onblur= {(e) => { check_finish_date(e.target.value) }}
                                 onChange={(e) => { setStart(e.target.value) }}
                                 placeholder="Дата начала приёма" />
                             <TextField

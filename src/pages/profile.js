@@ -20,15 +20,15 @@ function error() {
 
     return data
   }
-
 }
 let data = error()
+
 const Profile = () => {
   const [activeButton, setActiveButton] = useState(JSON.parse(localStorage.getItem('user')).name = "" ? 'edit' : 'save');
   //if(abp=="save"){toggleReadOnly()}
 
 
-  const [isReadOnly, setIsReadOnly] = useState(localStorage.getItem('abp') ? true : false);
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
   const handleEdit = (e) => {
     setActiveButton('edit');

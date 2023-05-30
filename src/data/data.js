@@ -45,8 +45,8 @@ export function get_data_tablets(id){
 }
 export function get_time(today1){
 let today = new Date(today1)
-var hours = (today.getHours().length<=1) ? "0"+today.getHours() : today.getHours();
-
+var hours = ((today.getHours()/10)<1) ? "0"+today.getHours() : today.getHours();
+console.log(today.getHours().length, hours)
 var minutes = (today.getMinutes().toString().length===1) ? "0"+today.getMinutes() : today.getMinutes();
 
 var timeWithoutSeconds = hours + ':' + minutes;
@@ -58,7 +58,7 @@ export function add_tablet_base(id, name,period,  doza,date_start, finish_date, 
   var tablet = new Object();
         tablet = {
             id: id,
-            name:(name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()),
+            name:(name.charAt(0).toUpperCase() + name.slice(1)),
             doza:doza,
             start_date: date_start, 
             finish_date:finish_date,
@@ -67,11 +67,12 @@ export function add_tablet_base(id, name,period,  doza,date_start, finish_date, 
             period:period
         }
         data.tablets.push(tablet)
-        console.log(typeof start)
-        //localStorage.setItem("user", data);
+        console.log(typeof date_start)
+        console.log( date_start)
+        localStorage.setItem("user", data);
         save_data_user(data)
-        window.location.href = '/';
-        alert("Лекарство добавлено");
+        //window.location.href = '/';
+       // alert("Лекарство добавлено");
 }
 
 export function get_tablets_in_day(date)
@@ -166,9 +167,10 @@ export function delete_all_pils(name){
     if (lowercaseElement === lowercaseName) {
       data_tablets.splice(i, 1)
       console.log("delete_tablet")
+      delete_tablets_in_states(data_tablets[i])
       data.tablets=data_tablets
       save_data_user(data)
-      return 1;
+      return data_tablets[i].id;
     }
   }
   console.log("not_found")
@@ -189,7 +191,7 @@ export function delete_tablet_one_time(name, time){
           console.log("delete_tablet_one_time")
           data.tablets=data_tablets
           save_data_user(data)
-          return 1;
+          return data_tablets[i].id;
         }
       };
     }
@@ -222,8 +224,6 @@ export function delete_tablets_in_states(tablet){
   let state = find_state(tablet, state_all)
   state_all.find(function(item) {
 
-    //console.log("id",item.id === obj.id)
-    //console.log(item.id)
   var first_cond = item.id === tablet.id;
   console.log(item.id, tablet.id, first_cond )
     if(first_cond){new_state_all.splice(state_all.indexOf(item), 1); console.log("delete")}
@@ -232,19 +232,22 @@ export function delete_tablets_in_states(tablet){
   save_data_states(new_state_all)
 }
 
-export function check_old_data(){
-  var state_all =get_data_states();
-  var today = new Date();
-  var tablets_in_day =get_tablets_in_day(today)
-  tablets_in_day.forEach(function(element) {
-    let state = find_state(element, state_all)
-  
-     // if (state!==-1) {states_pills[i]=true}
-      
-     // i++
-    });
-  console.log("все состояния", state_all)
-  console.log("все таблетки на сегодня",tablets_in_day )
-}
 //get_tablets_in_day( new Date())
 //console.log(get_data_profile(0))
+
+
+export function check_finish_date(finish_date ) {
+
+  var currentDate = new Date();
+  var inputDate = new Date(finish_date);
+  
+  // Устанавливаем время сегодняшней даты в 00:00:00
+  currentDate.setHours(0, 0, 0, 0);
+
+  // Сравниваем дату со сегодняшней
+  if (inputDate >= currentDate) {
+    return true;
+  } else {
+    return false;
+  }
+}
