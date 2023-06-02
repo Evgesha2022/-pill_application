@@ -81,13 +81,13 @@ import {createSmartappDebugger,
       console.log('dispatchAssistantAction', action);
 
       if (action) {
+        console.log('action.type', action.type);
         switch (action.type) {
           case 'add_tablet':
-            
             return this.add_tablet(action);
           case 'add_user':
             return this.add_user(action);
-          case 'delete_all_pils':
+          case 'delete_all_pills':
             return this.delete_all_pils(action);
           case 'delete_tablet_one_time':
             return this.delete_tablet_one_time(action);
@@ -180,6 +180,7 @@ delete_all_pils(action){
 
 delete_tablet_one_time(action){
   console.log('delete_tablet_one_time', action)
+  var time =get_time(action.time[0].value.value)
       if (action.name != undefined){
       /*this.setState({ проработать уделение и здесь
           tablets: [
@@ -199,7 +200,9 @@ delete_tablet_one_time(action){
         times.push(get_time(time))
 
       })*/
-      delete_tablet_one_time( action.name, action.time.value)
+      console.log("time", time)
+      //console.log("action.name", action.name)
+      delete_tablet_one_time( action.name, time)
     }
 }
 

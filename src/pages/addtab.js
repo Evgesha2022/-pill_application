@@ -9,10 +9,12 @@ import axios from '../axios.js';
 import { get_data, save_data_user } from '../data/data.js'
 import { addDaysToDate, check_start } from '../data/add_days'
 import{check_finish_date}from '../data/data.js'
-let data = get_data()
+
+
 
 export function AddTablet(props) {
-
+    let data = get_data()
+   // console.log("addtab", data)
     var today = (new Date()).toLocaleDateString();
     //const { onAdd } = this.props;
     //const { onChangeAd1 } = this.props;

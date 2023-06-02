@@ -12,7 +12,14 @@ function Eapteka() {
   let data = get_data()
 
   const initialItems = data.tablets
-
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'user') {
+      // Выполните необходимые действия при изменении данных
+      //console.log("event.newValue", event.newValue)
+      data= JSON.parse(event.newValue);
+      setItems(data.tablets)
+    }
+  });
 
   const [items, setItems] = useState(initialItems);
 

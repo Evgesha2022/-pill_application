@@ -23,7 +23,7 @@ export function get_data_tablets(id){
   }
   //export
   export function get_data(){
-   
+    
     var data = JSON.parse(localStorage.getItem('user'))
     const result = data;
     return result
@@ -40,7 +40,7 @@ export function get_data_tablets(id){
     oldValue: null,
     storageArea: localStorage
   });
-  
+// console.log("storageChangeEvent", storageChangeEvent)
   // Отправка события всем открытым страницам на том же домене
   window.dispatchEvent(storageChangeEvent);
     return localStorage.getItem('user')
@@ -194,13 +194,12 @@ export function delete_all_pils(name){
 
   console.log("delete_all_pils",data_tablets.length)
   for (var i = 0; i < data_tablets.length; i++) {
-    console.log(data_tablets[i].name)
-    alert(data)
+    
     var lowercaseElement = data_tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
     if (lowercaseElement === lowercaseName) {
+      delete_tablets_in_states(data_tablets[i])
       data_tablets.splice(i, 1)
       console.log("delete_tablet")
-      delete_tablets_in_states(data_tablets[i])
       data.tablets=data_tablets
       save_data_user(data)
       return 0;
@@ -213,18 +212,32 @@ export function delete_all_pils(name){
 export function delete_tablet_one_time(name, time){
   //console.log("index", index)
   let data = get_data()
-  var data_tablets = new Array(data.tablets)
+  var data_tablets = new Object(data.tablets)
+  console.log("name",name)
+
+  console.log(name.toLowerCase())
+  console.log("data_tablets", data_tablets)
   var lowercaseName = name.toLowerCase(); // приводим искомое значение к нижнему регистру
   for (var i = 0; i < data_tablets.length; i++) {
+    console.log("data_tablets[i].name",data_tablets[i].name)
     var lowercaseElement = data_tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
+    console.log(lowercaseElement)
     if (lowercaseElement === lowercaseName) {
-      for (var j = 0; j < data_tablets[i].times.length; i++){
-        if(data_tablets[i].times[j]===get_time(time)){
+      
+      for (var j = 0; j < data_tablets[i].times.length; j++){
+        console.log( data_tablets[i].times)
+        if(data_tablets[i].times[j]===time){
           data_tablets[i].times.splice(j, 1)
           console.log("delete_tablet_one_time")
           data.tablets=data_tablets
+          console.log("data.tablets[i]",data.tablets[i])
+          console.log("length", data.tablets[i].times.length)
+          if(data.tablets[i].times.length===0){
+          data.tablets.splice(i, 1);
+          console.log("удалили всё")
+          }
           save_data_user(data)
-          return data_tablets[i].id;
+          return "удалили";
         }
       };
     }
