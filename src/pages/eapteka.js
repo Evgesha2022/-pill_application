@@ -12,8 +12,20 @@ import { BiggerTitle, Title } from '@salutejs/plasma-ui/components/TextBox/TextB
 function Eapteka() {
     let data = get_data()
 
+<<<<<<< HEAD
     const initialitems = data.tablets
 
+=======
+  const initialItems = data.tablets
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'user') {
+      // Выполните необходимые действия при изменении данных
+      //console.log("event.newValue", event.newValue)
+      data= JSON.parse(event.newValue);
+      setItems(data.tablets)
+    }
+  });
+>>>>>>> 89f0400b1b25f2dda88eaec40a773afe1b3bbdfb
 
     const [items, setitems] = useState(initialitems);
 
@@ -33,6 +45,7 @@ function Eapteka() {
 
     return (
 
+<<<<<<< HEAD
         < DeviceThemeProvider style={{ height: '100%' }} >
             <h2 align="center">Рекомендации из ЕАПТЕКИ</h2>
             <CarouselGridWrapper style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -48,6 +61,33 @@ function Eapteka() {
 
                                 <Badge size='l' style={{ marginLeft: '0.5em', marginTop: '0.5em' }} text='Из списка лекарств' />
                                 <CardBody style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', top: '-10px' }}>
+=======
+    < DeviceThemeProvider>
+      <h2 align="center">Рекомендации из ЕАПТЕКИ</h2>
+      <CarouselGridWrapper>
+        <CarouselLite
+          axis={axis}
+          index={index}
+          scrollSnapType="mandatory"
+          detectActive detectThreshold={0.5}
+          style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem', paddingStart: "0px" }}>
+          {items.map(({ name }, i) => (
+            <CarouselCol key={`item:${i}`} size={3} sizeXL={4} scrollSnapAlign="center">
+              <Card className="product_card" style={{ height: "180px", width: window.innerWidth >= 768 ? "50vw" : "70vw", margin: "16px" }} focused={i === index}>
+                <CardBody>
+
+                  <CardContent style={{ textAlign: 'center' }}>
+                    <Badge size='l' style={{ marginTop: '0.25em', marginBottom: '1.5em' }} text='Из списка лекарств' />
+                    <TextBox style={{ alignItems: 'center' }}>
+                      <H1 style={{ fontSize: '20px' }}>{name}</H1>
+                    </TextBox>
+                    <Button view='primary'
+                      text="Заказать на ЕАПТЕКА"
+                      contentRight={<IconCart />}
+                      size="s"
+
+                      onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}
+>>>>>>> 89f0400b1b25f2dda88eaec40a773afe1b3bbdfb
 
 
                                     <TextBox style={{ marginRight: 'auto', marginBottom: '10px' }}>

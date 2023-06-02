@@ -20,15 +20,21 @@ function error() {
 
     return data
   }
-
 }
 let data = error()
+
 const Profile = () => {
   const [activeButton, setActiveButton] = useState(JSON.parse(localStorage.getItem('user')).name = "" ? 'edit' : 'save');
   //if(abp=="save"){toggleReadOnly()}
 
-
-  const [isReadOnly, setIsReadOnly] = useState(localStorage.getItem('abp') ? true : false);
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'user') {
+      // Обработка изменений в хранилище
+      data = JSON.parse(event.newValue);
+      console.log("addEventListener", data)
+    }
+  });
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
   const handleEdit = (e) => {
     setActiveButton('edit');
@@ -67,7 +73,14 @@ const Profile = () => {
     post_data_profile(name, surname, birthday)
 
     data = error()
-    document.location.reload();
+    window.addEventListener('storage', function(event) {
+      if (event.key === 'user') {
+        // Обработка изменений в хранилище
+
+        data = JSON.parse(event.newValue);
+        console.log("addEventListener", data)
+      }
+    });
     /* axios.post('/profile', {
     name: name,
     surname:surname,

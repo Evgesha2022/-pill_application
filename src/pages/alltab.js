@@ -13,11 +13,18 @@ import { Error_Alltab } from '../data/find_error'
 //(!localStorage.getItem('alltabindexcarousel')) ? localStorage.setItem("alltabindexcarousel", 0) : index=parseInt(localStorage.getItem('alltabindexcarousel'))
 function AllTab() {
     let data = get_data()
-
+    ///console.log("AllTabdata", data.tablets)
     const initialItems = data.tablets
     const [items, setItems] = useState(initialItems);
 
-
+    window.addEventListener('storage', function(event) {
+        if (event.key === 'user') {
+          // Выполните необходимые действия при изменении данных
+          //console.log("event.newValue", event.newValue)
+          data= JSON.parse(event.newValue);
+          setItems(data.tablets)
+        }
+      });
     const axis = 'x';
 
     const [index] = useRemoteHandlers({
