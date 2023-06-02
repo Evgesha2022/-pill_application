@@ -120,7 +120,9 @@ export function get_tablets_in_day(date)
       }
       //else{alert("следует удалить  таблетку " ,element.name )}
       ;}
-      else{console.log("следует удалить  таблетку " ,element.name )}
+      else{
+        delete_all_pils(element.name)
+        console.log("следует удалить  таблетку " ,element.name )}
   });
   console.log("ans", ans)
   ans.sort(function(a, b){
@@ -145,7 +147,15 @@ export function save_data_states(obj)
   {
     var newJsonFileContent = JSON.stringify(obj);
   localStorage.setItem("states", newJsonFileContent);
-  
+  var storageChangeEvent = new StorageEvent('storage', {
+    key: 'states',
+    newValue: newJsonFileContent,
+    oldValue: null,
+    storageArea: localStorage
+  });
+// console.log("storageChangeEvent", storageChangeEvent)
+  // Отправка события всем открытым страницам на том же домене
+  window.dispatchEvent(storageChangeEvent);
     return localStorage.getItem('states')
   }
 export function get_data_states(){
@@ -219,19 +229,19 @@ export function delete_tablet_one_time(name, time){
   console.log("data_tablets", data_tablets)
   var lowercaseName = name.toLowerCase(); // приводим искомое значение к нижнему регистру
   for (var i = 0; i < data_tablets.length; i++) {
-    console.log("data_tablets[i].name",data_tablets[i].name)
+    //console.log("data_tablets[i].name",data_tablets[i].name)
     var lowercaseElement = data_tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
-    console.log(lowercaseElement)
+    //console.log(lowercaseElement)
     if (lowercaseElement === lowercaseName) {
       
       for (var j = 0; j < data_tablets[i].times.length; j++){
-        console.log( data_tablets[i].times)
+        //console.log( data_tablets[i].times)
         if(data_tablets[i].times[j]===time){
           data_tablets[i].times.splice(j, 1)
           console.log("delete_tablet_one_time")
           data.tablets=data_tablets
-          console.log("data.tablets[i]",data.tablets[i])
-          console.log("length", data.tablets[i].times.length)
+          //console.log("data.tablets[i]",data.tablets[i])
+          //console.log("length", data.tablets[i].times.length)
           if(data.tablets[i].times.length===0){
           data.tablets.splice(i, 1);
           console.log("удалили всё")
@@ -302,4 +312,27 @@ export function check_all_tab(){
     console.log(check_finish_date(element.finish_date))
     if(!check_finish_date(element.finish_date)){delete_all_pils(element.name)}
   });
+}
+
+export function find_id(name, time){
+  var data = get_data()
+  var lowercaseName = name.toLowerCase(); // приводим искомое значение к нижнему регистру
+  for (var i = 0; i < data.tablets.length; i++) {
+    console.log("data_tablets[i].name",data.tablets[i].name)
+    var lowercaseElement = data.tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
+    console.log(lowercaseElement)
+    if (lowercaseElement === lowercaseName) {
+      for (var j = 0; j < data.tablets[i].times.length; j++){
+        console.log( data.tablets[i].times[j])
+        console.log(time)
+        console.log(data.tablets[i].times[j]===time)
+        if(data.tablets[i].times[j]===time){
+          return data.tablets[i].id
+        }
+       
+      } 
+      return -1
+    }
+  }
+  return 0
 }

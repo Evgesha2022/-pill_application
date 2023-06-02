@@ -27,7 +27,13 @@ const Profile = () => {
   const [activeButton, setActiveButton] = useState(JSON.parse(localStorage.getItem('user')).name = "" ? 'edit' : 'save');
   //if(abp=="save"){toggleReadOnly()}
 
-
+  window.addEventListener('storage', function(event) {
+    if (event.key === 'user') {
+      // Обработка изменений в хранилище
+      data = JSON.parse(event.newValue);
+      console.log("addEventListener", data)
+    }
+  });
   const [isReadOnly, setIsReadOnly] = useState(true);
 
   const handleEdit = (e) => {

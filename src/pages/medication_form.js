@@ -40,7 +40,7 @@ function MedicationForm({ initialItems, onSubmit, onCancel, data, index, alldata
         localStorage.setItem("alltabindexcarousel", index)
         //changedata.name = name
         closeModal();
-        document.location.reload();//чтобы получить новые данные из локального хранилища
+        //document.location.reload();//чтобы получить новые данные из локального хранилища
     };
     let value = ''
 

@@ -9,7 +9,7 @@ import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import {Layout} from './components/Layout.jsx'
 import{addDaysToDate_asist,addDaysToDate,  check_start} from './data/add_days'
-import {get_data_tablets,  add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date,  check_all_tab} from "./data/data.js"
+import {get_data_tablets,save_data_states,post_data_profile, find_id, find_state, add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date,  get_data_states} from "./data/data.js"
 import {createSmartappDebugger,
   createAssistant} from "@salutejs/client";
 
@@ -85,12 +85,14 @@ import {createSmartappDebugger,
         switch (action.type) {
           case 'add_tablet':
             return this.add_tablet(action);
-          case 'add_user':
+          case 'add_new_user':
             return this.add_user(action);
           case 'delete_all_pills':
             return this.delete_all_pils(action);
           case 'delete_tablet_one_time':
             return this.delete_tablet_one_time(action);
+          case 'mark_pill':
+            return this.mark_pill(action)
           default:
             throw new Error();
         }
@@ -138,9 +140,9 @@ add_tablet (action) {
     
   }
   add_user (action) {
-    //console.log('add_user', action.name);
+    console.log('add_user', action);
     if (action.tablets != undefined){
-    this.setState({
+    /*this.setState({
         tablets: [
           {
             name:    action.name,
@@ -148,10 +150,11 @@ add_tablet (action) {
           },
           ...this.state.tablets.slice(1),
         ],
-    })
-    console.log(this.state.tablets)
+    })*/
+    post_data_profile(action.name, action.surname, action.birthday)
+    
   }
-  console.log("tablets", this.state.tablets)
+  //console.log("tablets", this.state.tablets)
 }
 delete_all_pils(action){
   console.log('delete_all_pils', action)
@@ -174,7 +177,7 @@ delete_all_pils(action){
         times.push(get_time(time))
 
       })*/
-      delete_all_pils( action.name)
+      delete_all_pils( action.name)//0
     }
 }
 
@@ -202,9 +205,49 @@ delete_tablet_one_time(action){
       })*/
       console.log("time", time)
       //console.log("action.name", action.name)
-      delete_tablet_one_time( action.name, time)
+      delete_tablet_one_time( action.name, time)//0
     }
 }
+mark_pill(action){
+
+  console.log('mark_pill', action)
+  var time =get_time(action.time[0].value.value)
+      if (action.name != undefined){
+      /*this.setState({ проработать уделение и здесь
+          tablets: [
+            {
+            name:    action.name,
+            start_date: start,
+            finish_date:finish_date
+            },
+            ...this.state.tablets.slice(1),
+          ],
+      })*/
+      var today = new Date()
+      var state_all = get_data_states()
+      console.log("time", time)
+      var id = find_id(action.name, time)
+      if(id===0){
+        console.log("я ничего не нашел")
+      }
+      else if(id===-1){
+        console.log("такого времени нет")
+      }
+      else {
+        var obj = { id: id, data: today, times: [time] };
+        var state = find_state(obj, state_all)
+        console.log("state", state)
+        if(state){state_all.push(obj)
+        save_data_states(state_all)}
+        else {console.log("такая таблетка уже выпита")}
+      }
+      //console.log("action.name", action.name)
+      
+    }
+}
+
+
+
 
     render() {
       console.log('render');
