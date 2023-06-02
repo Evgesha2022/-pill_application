@@ -67,7 +67,14 @@ const Profile = () => {
     post_data_profile(name, surname, birthday)
 
     data = error()
-    document.location.reload();
+    window.addEventListener('storage', function(event) {
+      if (event.key === 'user') {
+        // Обработка изменений в хранилище
+
+        data = JSON.parse(event.newValue);
+        console.log("addEventListener", data)
+      }
+    });
     /* axios.post('/profile', {
     name: name,
     surname:surname,

@@ -23,9 +23,9 @@ export function get_data_tablets(id){
   }
   //export
   export function get_data(){
+   
     var data = JSON.parse(localStorage.getItem('user'))
     const result = data;
-    
     return result
   }
   export function save_data_user(obj)
@@ -33,6 +33,16 @@ export function get_data_tablets(id){
     var newJsonFileContent = JSON.stringify(obj);
   localStorage.setItem("user", newJsonFileContent);
 
+  // Создание события об изменении хранилища
+  var storageChangeEvent = new StorageEvent('storage', {
+    key: 'user',
+    newValue: newJsonFileContent,
+    oldValue: null,
+    storageArea: localStorage
+  });
+  
+  // Отправка события всем открытым страницам на том же домене
+  window.dispatchEvent(storageChangeEvent);
     return localStorage.getItem('user')
   }
   export function post_data_profile(name, surname,birthday){
@@ -84,26 +94,44 @@ export function get_tablets_in_day(date)
   tablets.forEach(function(element) {
     var startDate = new Date(element.start_date);
     var endDate = new Date(element.finish_date);
-    
+    if(check_finish_date(endDate)){
     
     startDate.setDate(startDate.getDate()-1)
-
+   /* console.log("date", element.name)
+      console.log("date", date)
+      console.log("startDate", startDate)
+      console.log(date >= startDate)
+      console.log("endDate", endDate)
+      console.log(date <= endDate)*/
     if(date >= startDate && date <= endDate) {
-      element.times.forEach(function(element1){
+      if(element.times===[]){element.times.forEach(function(element1){
         var addtablet=Object.assign([], element);
         
         addtablet.times=[element1]
+        console.log("push")
         ans.push(addtablet)
 
-      })
-      };
+      })}
+      else{
+        var addtablet=Object.assign([], element);
+        console.log("push")
+        ans.push(addtablet)}
+      
+      }
+      //else{alert("следует удалить  таблетку " ,element.name )}
+      ;}
+      else{console.log("следует удалить  таблетку " ,element.name )}
   });
+  console.log("ans", ans)
   ans.sort(function(a, b){
-    var nameA=a.times[0].toLowerCase(), nameB=b.times[0].toLowerCase()
+    if(a.times[0] && b.times[0]){ var nameA=a.times[0].toLowerCase(), nameB=b.times[0].toLowerCase()
       if (nameA < nameB) {return -1}
-      return 0 // Никакой сортировки
+      return 0}
+      else {return 0}
+    // Никакой сортировки
     // new Date(===a.times[0])- new Date(b.times[0])
   });
+  console.log("ans", ans)
   return ans
 }
  export function create_base_states(){
@@ -160,9 +188,14 @@ export function delete_state(index, state_all){
 export function delete_all_pils(name){
   //console.log("index", index)
   let data = get_data()
-  var data_tablets = new Array(data.tablets)
+  var data_tablets = new Object(data.tablets)
+  console.log("delete_all_pils",data_tablets)
   var lowercaseName = name.toLowerCase(); // приводим искомое значение к нижнему регистру
+
+  console.log("delete_all_pils",data_tablets.length)
   for (var i = 0; i < data_tablets.length; i++) {
+    console.log(data_tablets[i].name)
+    alert(data)
     var lowercaseElement = data_tablets[i].name.toLowerCase(); // приводим текущий элемент массива к нижнему регистру
     if (lowercaseElement === lowercaseName) {
       data_tablets.splice(i, 1)
@@ -170,7 +203,7 @@ export function delete_all_pils(name){
       delete_tablets_in_states(data_tablets[i])
       data.tablets=data_tablets
       save_data_user(data)
-      return data_tablets[i].id;
+      return 0;
     }
   }
   console.log("not_found")
@@ -208,9 +241,7 @@ export function array_states(tablets){
   let i=0
   tablets.forEach(function(element) {
   let state = find_state(element, state_all)
-
     if (state!==-1) {states_pills[i]=true}
-    
     i++
   });
   
@@ -243,11 +274,19 @@ export function check_finish_date(finish_date ) {
   
   // Устанавливаем время сегодняшней даты в 00:00:00
   currentDate.setHours(0, 0, 0, 0);
-
   // Сравниваем дату со сегодняшней
   if (inputDate >= currentDate) {
     return true;
   } else {
     return false;
   }
+}
+
+export function check_all_tab(){
+  var data = get_data()
+  console.log("check_all_tab",data.tablets)
+  data.tablets.forEach(element => {
+    console.log(check_finish_date(element.finish_date))
+    if(!check_finish_date(element.finish_date)){delete_all_pils(element.name)}
+  });
 }

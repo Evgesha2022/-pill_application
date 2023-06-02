@@ -7,3 +7,12 @@ export function Error_Alltab(items){
     }
 
 }
+export function FixTypeError(items){
+    try{
+        return items
+    }
+    catch(TypeError){
+        return 0
+    }
+
+}

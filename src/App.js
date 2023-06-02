@@ -9,7 +9,7 @@ import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import {Layout} from './components/Layout.jsx'
 import{addDaysToDate_asist,addDaysToDate,  check_start} from './data/add_days'
-import {get_data_tablets,  add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date} from "./data/data.js"
+import {get_data_tablets,  add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date,  check_all_tab} from "./data/data.js"
 import {createSmartappDebugger,
   createAssistant} from "@salutejs/client";
 
