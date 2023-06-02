@@ -1,6 +1,6 @@
 export function Error_Alltab(items){
     try{
-        return items.lenght
+        return items.length
     }
     catch(TypeError){
         return 1
