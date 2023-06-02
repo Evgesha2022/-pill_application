@@ -1,3 +1,54 @@
+.modal::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+@media (max-height: 668px) {
+  .eapteka_carousel {
+    max-height: 40vh;
+  }
+
+}
+
+@media (min-height: 768px) and (max-height: 896px) {
+  .eapteka_carousel {
+    max-height: 56vh;
+  }
+
+}
+
+@media (min-height: 668px) and (max-height: 768px) {
+  .eapteka_carousel {
+    max-height: 44vh;
+  }
+
+}
+
+
+@media (min-height: 897px) {
+  .eapteka_carousel {
+    max-height: 70vh;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+  .btn_wrapper {
+    max-width: 50px;
+  }
+
+  .cart_icon {
+    margin-right: 1px;
+  }
+
+  .modal {
+    .modal {
+      width: 60vw;
+    }
+  }
+}
+
+
 .App {
   text-align: center;
 }
@@ -12,15 +63,17 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
 body {
   overflow: hidden;
 }
-.butaddpill
-{
+
+.butaddpill {
   z-index: 1000;
-   bottom: 100px; 
-   left: 85vw;
+  bottom: 100px;
+  left: 85vw;
 }
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -40,54 +93,55 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 ul {
   font: 14px Verdana, Geneva, sans-serif;
   overflow: hidden;
   display: flex;
-    list-style: none;
-   
+  list-style: none;
+
 }
+
 ul li.left {
-          width: 10vw;
-          float: left;
-          list-style-type: none;
-          display: flex;
-    list-style: none;
-    margin: 0 6vw;
-  }
- ul li.right {
-          width: 10vw;
-          float: right;
-          text-align: right;
-          list-style-type: none;
-          display: flex;
-    list-style: none;
-    margin: 0 6vw;
-  }
- ul li.center {
-          text-align: center;
-          list-style-type: none;
-          display: flex;
-    list-style: none;
-    margin: 0 10px;
-  }
+  width: 10vw;
+  float: left;
+  list-style-type: none;
+  display: flex;
+  list-style: none;
+  margin: 0 6vw;
+}
 
-  .scrollbar {
-    overflow-y: scroll;
-  }
-  
-  .scrollbar::-webkit-scrollbar {
-    width: 5em;
-  }
-  .scrollbar1::-webkit-scrollbar {
-    width: 5em;
-  }
- 
+ul li.right {
+  width: 10vw;
+  float: right;
+  text-align: right;
+  list-style-type: none;
+  display: flex;
+  list-style: none;
+  margin: 0 6vw;
+}
 
-  
+ul li.center {
+  text-align: center;
+  list-style-type: none;
+  display: flex;
+  list-style: none;
+  margin: 0 10px;
+}
 
- 
+.scrollbar {
+  overflow-y: scroll;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 5em;
+}
+
+.scrollbar1::-webkit-scrollbar {
+  width: 5em;
+}

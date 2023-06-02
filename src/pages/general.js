@@ -62,7 +62,7 @@ function General() {
         >
           {items.map(({ title, subtitle, tablets, data }, i) => (
             <CarouselCol key={`item:${i}`} size={2} sizeXL={4} scrollSnapAlign="start" type="calc">
-              <Card style={{ height: '45vh', width: "90vw", margin: '10px' }} focused={i === index}>
+              <Card style={{ height: '45vh', width: "90vw", margin: '10px', paddingRight: '0px' }} focused={i === index}>
                 <CardBody className="scrollbar1" style={{ overflowY: 'scroll' }} >
                   <CardContent >
                     {subtitle && <div style={{ fontSize: '12px', lineHeight: '20px' }}>{subtitle}</div>}

@@ -95,13 +95,13 @@ const Profile = () => {
         <div className='profile__edited' style={{ alignItems: 'center', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
 
           <HeaderSubtitle className='profile__text' >Имя</HeaderSubtitle>
-          <TextField id="name" style={{ width: '60vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text' value={name}></TextField>
+          <TextField id="name" style={{ width: window.innerWidth >= 768 ? '30vw' : '64vw', margin: '10px' }} onChange={(e) => { setName(e.target.value) }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите своё имя'} readOnly={isReadOnly} type='text' value={name}></TextField>
 
           <HeaderSubtitle className='profile__text'>Фамилия</HeaderSubtitle>
-          <TextField onChange={(e) => { setSurname(e.target.value) }} style={{ width: '60vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою фамилию'} readOnly={isReadOnly} type='text' value={surname} ></TextField>
+          <TextField onChange={(e) => { setSurname(e.target.value) }} style={{ width: window.innerWidth >= 768 ? '30vw' : '64vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою фамилию'} readOnly={isReadOnly} type='text' value={surname} ></TextField>
 
           <HeaderSubtitle className='profile__text'>Дата рождения</HeaderSubtitle>
-          <TextField onChange={(e) => { setBirthdate(e.target.value) }} style={{ width: '60vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою дату рождения'} readOnly={isReadOnly} type="date" id="birthday" name="birthday" value={birthday}></TextField>
+          <TextField onChange={(e) => { setBirthdate(e.target.value) }} style={{ width: window.innerWidth >= 768 ? '30vw' : '64vw', margin: '10px' }} className='profile__input' placeholder={isReadOnly ? '' : 'Введите свою дату рождения'} readOnly={isReadOnly} type="date" id="birthday" name="birthday" value={birthday}></TextField>
 
         </div>
 
