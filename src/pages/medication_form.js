@@ -6,7 +6,7 @@ import { IconPlus } from "@salutejs/plasma-icons";
 import { Button, Card, CardBody, CardContent, CarouselCol, CarouselGridWrapper, CarouselLite, H2, TextField, useRemoteHandlers, CardHeadline1, DeviceThemeProvider, H1, } from '@salutejs/plasma-ui';
 import { AddTablet } from './addtab';
 import Axios from 'axios';
-import { get_data, save_data_user } from '../data/data.js'
+import { get_data, save_data_user, delete_all_state_one_tablet, find_id } from '../data/data.js'
 import { addDaysToDate } from '../data/add_days'
 function MedicationForm({ initialItems, onSubmit, onCancel, data, index, alldata }) {//data уже приходит сразу изменяемая таблетка
 
@@ -27,6 +27,9 @@ function MedicationForm({ initialItems, onSubmit, onCancel, data, index, alldata
     const handleSubmit = (e) => {   //здесь записываем данные в базу данных
         e.preventDefault();
         var finish_date = addDaysToDate(start, period)
+        
+        var id  = find_id(data.name ,data.times[0] )
+        delete_all_state_one_tablet(id)
         data.name = name
         data.doza = doza
         data.period = period
@@ -35,7 +38,9 @@ function MedicationForm({ initialItems, onSubmit, onCancel, data, index, alldata
         data.condition = condition
         data.finish_date = finish_date
         alldata.tablets[index] = data
+        
         save_data_user(alldata)
+        
         console.log(alldata)
         localStorage.setItem("alltabindexcarousel", index)
         //changedata.name = name

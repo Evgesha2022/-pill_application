@@ -1,6 +1,6 @@
 
 import '../App.css';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { AddTablet } from './addtab.js';
 import {
   CarouselLite, CarouselGridWrapper, useRemoteHandlers, BodyS, Switch,
@@ -85,13 +85,40 @@ function FullCard(props) {
   var states_pills = []
   
   console.log(props.posts)
-  if (props.data.toLocaleDateString() === today.toLocaleDateString()) { states_pills = array_states(props.posts); 
- 
-  
+  if (props.data.toLocaleDateString() === today.toLocaleDateString()) { 
+    states_pills = array_states(props.posts);   
+  } else { 
+    states_pills = new Array(props.posts.length).fill(false)
   }
-  else { states_pills = new Array(props.posts.length).fill(false) }
   let [isSubscribed, setIsSubscribed] = useState(states_pills);
   
+  var state_all = get_data_states()
+  console.log("state_all_old" , state_all)
+  
+
+  const handleStorageChange = useCallback(
+    (event) => {
+    if (event.key === 'states') {
+      // Выполните необходимые действия при изменении данных
+      console.log("addEventListener: event.newValue", event.newValue)
+      state_all= JSON.parse(event.newValue);
+      console.log("addEventListener: state_all", state_all)
+      console.log("addEventListener: props.posts", props.posts)
+      //var post=get_tablets_in_day(today-1)
+      //console.log("post", post)
+      states_pills = array_states(props.posts);
+      setIsSubscribed(states_pills)
+      console.log("addEventListener: states_pills", states_pills)
+    }
+  }
+  )
+
+  useEffect(() => {
+    console.log('useEffect')
+    window.addEventListener('storage', (event) => handleStorageChange(event));
+  
+  }, [isSubscribed, setIsSubscribed, handleStorageChange])
+
   //<Switch defaultChecked={false} onChange={()=>{setIsSubscribed(states_pills)}} />
   if (props.data.toLocaleDateString() !== today.toLocaleDateString()) {
     const content = props.posts.map((post, i) => {
@@ -102,7 +129,6 @@ function FullCard(props) {
 
         </h3>
         <p  >{post.doza}  {modifiedcondition} </p>
-
         <hr />
       </div>)
     });
@@ -113,13 +139,11 @@ function FullCard(props) {
     );
   }
 
-  var state_all = get_data_states()
-  console.log("state_all_old" , state_all)
-  
+
   const handleChange = (i) => {
-    var obj = new Object();
+    // var obj = new Object();
     console.log("NewClick")
-    obj = { id: props.posts[i].id, data: props.data, times: [props.posts[i].times[0]] };
+    let obj = { id: props.posts[i].id, data: props.data, times: [props.posts[i].times[0]] };
     let state_ones = find_state(obj, state_all, props.data);
     if (isSubscribed[i] === true) {
       delete_state(state_ones, state_all);
@@ -135,21 +159,8 @@ function FullCard(props) {
     state_all = get_data_states()
   };
 
-  const content = props.posts.map((post, i) => {
-    window.addEventListener('storage', function(event) {
-      if (event.key === 'states') {
-        // Выполните необходимые действия при изменении данных
-        console.log("event.newValue", event.newValue)
-        state_all= JSON.parse(event.newValue);
-        console.log("state_all", state_all)
-        console.log("props.posts", props.posts)
-        //var post=get_tablets_in_day(today-1)
-        //console.log("post", post)
-        states_pills = array_states(props.posts);
-        setIsSubscribed(states_pills)
-        console.log("states_pills", states_pills)
-      }
-    });
+
+  var content = props.posts.map((post, i) => {
 
 
     console.log("isSubscribed[i]",isSubscribed[i])

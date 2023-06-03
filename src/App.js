@@ -11,7 +11,7 @@ import {Layout} from './components/Layout.jsx'
 import{addDaysToDate_asist,addDaysToDate,  check_start} from './data/add_days'
 import {get_data_tablets,save_data_states,post_data_profile, find_id, find_state, add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date,  get_data_states} from "./data/data.js"
 import {createSmartappDebugger,
-  createAssistant} from "@salutejs/client";
+  createAssistant, send} from "@salutejs/client";
 
 
 //const token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI3ODlhMjZkYy1iNGE4LTRlNmQtODYzYS0yMGYzNzRmMzFhOTciLCJzdWIiOiJmZjAwMWZiNjdhYmU5ZGFmMzY1ZTQwZTc0NDNhOWE0MzQ0YjRiYzE2ODRlOTFiZmZlNTVlMjFlMzgzMmYxNjY4YmQyZGMiLCJpc3MiOiJLRVlNQVNURVIiLCJleHAiOjE2ODUwMzgxMzAsImF1ZCI6IlZQUyIsImlhdCI6MTY4NDk1MTcyMCwidHlwZSI6IkJlYXJlciIsInNpZCI6IjY3Zjc1Y2I4LWQ2YzQtNGE1OC05MmM3LWE2NWVhNWZiODU4YyJ9.iOe-IuiVsCGtGSmvZU1dqSIINZc8rjadn4K_Xtp2OykhwNllDCMIb_XZX9hzhBB8UQIVT_n2g_YTHSDXHauj8sglo--dDIOGm6VW58AJfzJwUscMOhKIB3rrb86tWDVJzAzchjBWBXvRy0-32ZWCCzovQ754dG-HvXdEB-tLAWVskIQkUzZD39Vh6cN5F7UMd9LLnLcAI3f27rj_pF3wCXVqAiUfZuQaw7yzPMx7fIyphLpgJdAeMznG36nOHbMDoPunoh503UBS-gBrUZ72rGTJi-XT6SlzQ8us593jIOX_AgpegTQs3gdtav4DWpawabvYRCrLalzClE99PeFVfjeXImd5kplyN0hbJv7SXQ4arfbVBACCMe1_NxgtKe9PtT-m-EFDBHsPJEx9pPqB4X4euNXneiP3CGcOsCbY0YAjfS2U27jKxDamMNts18Ctdq07oeQC31cqG6hT7O3P_MG-D_TJs3HXwDhHHmmYNJvHuWB6h53HhRpjUkfvGgfczQCPoziexT-STUhvKv2G3zJVPBfxoTTssW0vEc1_EiMWZsFkKzHXLCUqessTJXsoV0HxYeIVzbvPqIZuSJ-dmdjgLz2r0AgKEiiN8wjwj0sGN9NiFnIWv6lNy8MXdpBLQYf64sN8kw6B4UTO9dA8OPuqbFFlbdGmFt1dzGmFBBs'
@@ -151,11 +151,34 @@ add_tablet (action) {
           ...this.state.tablets.slice(1),
         ],
     })*/
+    console.log()
     post_data_profile(action.name, action.surname, action.birthday)
     
   }
   //console.log("tablets", this.state.tablets)
 }
+
+_send_action_value(action_id, value) {
+  const data = {
+    action: {
+      action_id: action_id,
+      parameters: {   // значение поля parameters может любым, но должно соответствовать серверной логике
+        value: value, // см.файл src/sc/noteDone.sc смартаппа в Studio Code
+      }
+    }
+  };
+  console.log("data", data)
+  const unsubscribe = this.assistant.sendData(
+    data,
+    (data) => {   // функция, вызываемая, если на sendData() был отправлен ответ
+      const {type, payload} = data;
+      console.log('sendData onData:', type, payload);
+      unsubscribe();
+    });
+}
+
+
+
 delete_all_pils(action){
   console.log('delete_all_pils', action)
       if (action.name != undefined){
@@ -177,9 +200,17 @@ delete_all_pils(action){
         times.push(get_time(time))
 
       })*/
-      delete_all_pils( action.name)//0
+      var ans=delete_all_pils( action.name)//0
+      if(ans ===0){
+        var value="таблетки не найдено";
+        this._send_action_value("delete_all", value) 
+        console.log("value", value)
+      
     }
-}
+}}
+
+
+
 
 delete_tablet_one_time(action){
   console.log('delete_tablet_one_time', action)
@@ -256,9 +287,10 @@ mark_pill(action){
     <>
     <Routes >
     <Route path='/' element={<Layout  />}>
-      <Route index element={<General/>}/>
+      <Route index element={<General onState={ (note)=>{this.mark_pill({ type: "mark_pill", note }); } }
+      onChangeState = {(this.state)}/>}/>
       <Route path='/tablets' element={<AllTab/>}/>
-      <Route path='/profile' element={<Profile/>}/>
+      <Route path='/profile' element={<Profile/>}/>   
       <Route path='/eapteka' element={<Eapteka/>}/>
       <Route path='/addtablet' element={<AddTablet
       onAdd={ (note)=>{this.add_tablet({ type: "add_tablet", note }); } }

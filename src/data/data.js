@@ -124,7 +124,7 @@ export function get_tablets_in_day(date)
         delete_all_pils(element.name)
         console.log("следует удалить  таблетку " ,element.name )}
   });
-  console.log("ans", ans)
+  //console.log("ans", ans)
   ans.sort(function(a, b){
     if(a.times[0] && b.times[0]){ var nameA=a.times[0].toLowerCase(), nameB=b.times[0].toLowerCase()
       if (nameA < nameB) {return -1}
@@ -133,7 +133,7 @@ export function get_tablets_in_day(date)
     // Никакой сортировки
     // new Date(===a.times[0])- new Date(b.times[0])
   });
-  console.log("ans", ans)
+  //console.log("ans", ans)
   return ans
 }
  export function create_base_states(){
@@ -192,6 +192,20 @@ export function delete_state(index, state_all){
   //console.log("index", index)
   state_all.splice(index, 1)
   console.log("delete")
+  return state_all
+}
+
+export function delete_all_state_one_tablet(id){
+  //console.log("index", index)
+  var state_all=get_data_states()
+  var new_states=new Object(state_all)
+  for(var i = 0; i < state_all.length; i++)
+  {
+    if(state_all[i].id===id){
+      new_states.splice(i, 1)
+    }
+  }
+  save_data_states(new_states)
   return state_all
 }
 
