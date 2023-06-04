@@ -12,12 +12,12 @@ import { BiggerTitle, Title } from '@salutejs/plasma-ui/components/TextBox/TextB
 function Eapteka() {
     let data = get_data()
 
-<<<<<<< HEAD
-    const initialitems = data.tablets
 
-=======
-  const initialItems = data.tablets
-  window.addEventListener('storage', function(event) {
+   const initialitems = data.tablets
+
+
+  const [items, setItems] = useState(initialitems);
+window.addEventListener('storage', function(event) {
     if (event.key === 'user') {
       // Выполните необходимые действия при изменении данных
       //console.log("event.newValue", event.newValue)
@@ -25,10 +25,7 @@ function Eapteka() {
       setItems(data.tablets)
     }
   });
->>>>>>> 89f0400b1b25f2dda88eaec40a773afe1b3bbdfb
-
-    const [items, setitems] = useState(initialitems);
-
+    
 
     const axis = 'y';
 
@@ -45,23 +42,7 @@ function Eapteka() {
 
     return (
 
-<<<<<<< HEAD
-        < DeviceThemeProvider style={{ height: '100%' }} >
-            <h2 align="center">Рекомендации из ЕАПТЕКИ</h2>
-            <CarouselGridWrapper style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <CarouselLite className='eapteka_carousel'
-                    axis={axis}
-                    index={index}
-                    scrollSnapType="mandatory"
-                    detectActive detectThreshold={0.5}
-                    style={{ paddingTop: '1.25rem', overflow: 'auto', paddingBottom: '1.25rem', paddingStart: "0px", }}>
-                    {items.map(({ name }, i) => (
-                        <CarouselCol key={`item:${i}`} size={3} sizeXL={4} scrollSnapAlign="center">
-                            <Card className="product_card" style={{ height: '100px', marginTop: "20px", margin: '8px', width: '60vw' }} focused={i === index}>
 
-                                <Badge size='l' style={{ marginLeft: '0.5em', marginTop: '0.5em' }} text='Из списка лекарств' />
-                                <CardBody style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', top: '-10px' }}>
-=======
     < DeviceThemeProvider>
       <h2 align="center">Рекомендации из ЕАПТЕКИ</h2>
       <CarouselGridWrapper>
@@ -86,8 +67,7 @@ function Eapteka() {
                       contentRight={<IconCart />}
                       size="s"
 
-                      onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}
->>>>>>> 89f0400b1b25f2dda88eaec40a773afe1b3bbdfb
+                      onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}></Button>
 
 
                                     <TextBox style={{ marginRight: 'auto', marginBottom: '10px' }}>
@@ -105,7 +85,7 @@ function Eapteka() {
 
                                             style={{ height: '50px', width: '150px' }} tabIndex={-1} />
                                     </div>
-
+                                    </CardContent>
                                 </CardBody>
 
                             </Card>

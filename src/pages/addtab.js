@@ -37,14 +37,23 @@ const [items, setItems] = useState(value)
         //console.log(onAdd)
         console.log(start)
         
+        if(name===''|| start==='' || doza==='' ){
+            setName('')
+        setStart('')
+        setItems('')
+        setCondition('')    
+        setDoza('')
+        setPeriod('')
+        }
         
-        
-        
+        else {
         var tablet = new Object();
         var new_start = check_start(start,  times[0]);
         var finish_date = addDaysToDate(new_start, period)
         console.log("finish_date", finish_date)
-        if(times===[]){times.push("00:00")}
+        
+        
+        if(times.length===0){times.push("00:00")}
         tablet = {
             id: Math.random().toString(36).substring(7),
             name: name,
@@ -65,7 +74,7 @@ const [items, setItems] = useState(value)
         setItems('')
         setCondition('')    
         setDoza('')
-        setPeriod('')
+        setPeriod('')}
     };
     
     
