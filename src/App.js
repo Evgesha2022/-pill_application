@@ -141,7 +141,7 @@ add_tablet (action) {
   }
   add_user (action) {
     console.log('add_user', action);
-    if (action.tablets != undefined){
+    if (action.name != undefined){
     /*this.setState({
         tablets: [
           {
@@ -151,11 +151,35 @@ add_tablet (action) {
           ...this.state.tablets.slice(1),
         ],
     })*/
-    post_data_profile(action.name, action.surname, action.birthday)
+    //console.log(action.name, action.surname, action.birthdate.value)
+    var datetime= action.birthdate.value
+    var date = datetime.split("T")[0];
+    post_data_profile(action.name, action.surname, date)
     
   }
   //console.log("tablets", this.state.tablets)
 }
+
+_send_action_value(action_id, value) {
+  const data = {
+    action: {
+      action_id: action_id,
+      parameters: {   // значение поля parameters может любым, но должно соответствовать серверной логике
+        value: value, // см.файл src/sc/noteDone.sc смартаппа в Studio Code
+      }
+    }
+  };
+  console.log("data", data)
+  const unsubscribe = this.assistant.sendData(
+    data,
+    (data) => {   // функция, вызываемая, если на sendData() был отправлен ответ
+      const {type, payload} = data;
+      console.log('sendData onData:', type, payload);
+      unsubscribe();
+    });
+}
+
+
 delete_all_pils(action){
   console.log('delete_all_pils', action)
       if (action.name != undefined){
@@ -177,7 +201,13 @@ delete_all_pils(action){
         times.push(get_time(time))
 
       })*/
-      delete_all_pils( action.name)//0
+      var ans=delete_all_pils( action.name)//0
+      if(ans ===0){
+        var value="таблетки не найдено";
+        this._send_action_value("delete_all", value) 
+        console.log("value", value)
+      
+    }
     }
 }
 

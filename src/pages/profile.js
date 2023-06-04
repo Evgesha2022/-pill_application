@@ -27,13 +27,7 @@ const Profile = () => {
   const [activeButton, setActiveButton] = useState(JSON.parse(localStorage.getItem('user')).name = "" ? 'edit' : 'save');
   //if(abp=="save"){toggleReadOnly()}
 
-  window.addEventListener('storage', function(event) {
-    if (event.key === 'user') {
-      // Обработка изменений в хранилище
-      data = JSON.parse(event.newValue);
-      console.log("addEventListener", data)
-    }
-  });
+  
   const [isReadOnly, setIsReadOnly] = useState(true);
 
   const handleEdit = (e) => {
@@ -47,6 +41,16 @@ const Profile = () => {
   const [name, setName] = useState(localStorage.getItem('user') ? data.name : value);
   const [surname, setSurname] = useState(localStorage.getItem('user') ? data.surname : value);
   const [birthday, setBirthdate] = useState(localStorage.getItem('user') ? data.birthday : value);
+window.addEventListener('storage', function(event) {
+    if (event.key === 'user') {
+      // Обработка изменений в хранилище
+      data = JSON.parse(event.newValue);
+      setName(data.name)
+      setSurname(data.surname)
+      setBirthdate(data.birthday)
+      //console.log("addEventListener", data)
+    }
+  });
 
   /*axios.get(`/profile/${id}`)
 .then(function (response) {
