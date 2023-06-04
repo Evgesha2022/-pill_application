@@ -13,20 +13,12 @@ function Eapteka() {
   let data = get_data()
 
 
-<<<<<<< HEAD
   const initialitems = data.tablets
 
 
   const [items, setItems] = useState(initialitems);
 
   window.addEventListener('storage', function (event) {
-=======
-   const initialitems = data.tablets
-
-
-  const [items, setItems] = useState(initialitems);
-window.addEventListener('storage', function(event) {
->>>>>>> c88763a08d3ff930a666e784f8741602ec46b322
     if (event.key === 'user') {
       // Выполните необходимые действия при изменении данных
       //console.log("event.newValue", event.newValue)
@@ -34,11 +26,7 @@ window.addEventListener('storage', function(event) {
       setItems(data.tablets)
     }
   });
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> c88763a08d3ff930a666e784f8741602ec46b322
 
   const axis = 'y';
 
@@ -55,12 +43,7 @@ window.addEventListener('storage', function(event) {
 
   return (
 
-<<<<<<< HEAD
     <DeviceThemeProvider style={{ height: '100%' }} >
-=======
-
-    < DeviceThemeProvider>
->>>>>>> c88763a08d3ff930a666e784f8741602ec46b322
       <h2 align="center">Рекомендации из ЕАПТЕКИ</h2>
       <CarouselGridWrapper style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         <CarouselLite className='eapteka_carousel'
@@ -86,13 +69,8 @@ window.addEventListener('storage', function(event) {
                       text={window.innerWidth >= 768 ? 'Заказать' : ''}
                       contentRight={<IconCart className='cart_icon' style={{}} />}
                       size="s"
-<<<<<<< HEAD
                       className='btn_wrapper'
                       onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}
-=======
-
-                      onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}></Button>
->>>>>>> c88763a08d3ff930a666e784f8741602ec46b322
 
                       style={{ height: '50px', width: '150px' }} tabIndex={-1} />
                   </div>
@@ -105,31 +83,8 @@ window.addEventListener('storage', function(event) {
         </CarouselLite>
       </CarouselGridWrapper>
 
-<<<<<<< HEAD
     </DeviceThemeProvider>
   );
-=======
-                                        <Button view='primary'
-                                            text={window.innerWidth >= 768 ? 'Заказать' : ''}
-                                            contentRight={<IconCart className='cart_icon' style={{}} />}
-                                            size="s"
-                                            className='btn_wrapper'
-                                            onClick={() => window.open("https://www.eapteka.ru/search/?q=" + encodeURIComponent(name))}
-
-                                            style={{ height: '50px', width: '150px' }} tabIndex={-1} />
-                                    </div>
-                                    </CardContent>
-                                </CardBody>
-
-                            </Card>
-                        </CarouselCol>
-                    ))}
-                </CarouselLite>
-            </CarouselGridWrapper>
-
-        </DeviceThemeProvider>
-    );
->>>>>>> c88763a08d3ff930a666e784f8741602ec46b322
 
 };
 
