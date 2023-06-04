@@ -1,4 +1,4 @@
-.modal::-webkit-scrollbar {
+.eapteka_carousel .modal::-webkit-scrollbar {
   width: 0 !important;
 }
 
