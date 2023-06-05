@@ -9,7 +9,7 @@ import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import {Layout} from './components/Layout.jsx'
 import{addDaysToDate_asist,addDaysToDate,  check_start} from './data/add_days'
-import {get_data_tablets,save_data_states,post_data_profile, find_id, find_state, add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date,  get_data_states} from "./data/data.js"
+import {get_data_tablets,save_data_states,post_data_profile, find_id, find_state, add_tablet_base, get_time, delete_all_pils, delete_tablet_one_time, get_data, check_finish_date,  get_data_states, capitalizeAfterSpace} from "./data/data.js"
 import {createSmartappDebugger,
   createAssistant} from "@salutejs/client";
 
@@ -79,7 +79,6 @@ import {createSmartappDebugger,
   
     dispatchAssistantAction (action) {
       console.log('dispatchAssistantAction', action);
-
       if (action) {
         console.log('action.type', action.type);
         switch (action.type) {
@@ -101,16 +100,32 @@ import {createSmartappDebugger,
 add_tablet (action) {
       //console.log('add_tablet', action.name);
       //console.log('start', action.name);
-      console.log('add_tablet', action)
-       var times =[get_time(action.times.value)]
+      //console.log('add_tablet', action)
+      var times =[]
+      action.times.forEach(element => {
+        times.push(get_time(element.value))
+      });
+      // var times =[get_time(action.times[0].value)]
+       //console.log("time bef", action.times.value)
 
+       //console.log("time", action.times[0].value)
+       //console.log("start", action.date_start.value)
+       times.sort(function(a, b){
+        if(a && b){ var nameA=a.toLowerCase(), nameB=b.toLowerCase()
+          if (nameA < nameB) {return -1}
+          return 0}
+          else {return 0}
+        // Никакой сортировки
+        // new Date(===a.times[0])- new Date(b.times[0])
+      });
+      console.log("add_tablet", times)
       var start =check_start(action.date_start.value,  times[0]);
      
-      console.log("start",start)
+      //console.log("start",start)
       var finish_date = addDaysToDate(start, action.period)
-      console.log("from sber data", action.date_start.value)
+      //console.log("from sber data", action.date_start.value)
       
-      console.log("finish_date", finish_date)
+     // console.log("finish_date", finish_date)
       let id = Math.random().toString(36).substring(7)
      if(check_finish_date(finish_date)) {if (action.name != undefined)
       {
@@ -118,7 +133,7 @@ add_tablet (action) {
           tablets: [
             {
             id: id, 
-            name:    action.name,
+            name:   capitalizeAfterSpace( action.name),
             start_date: start,
             finish_date:finish_date
             },
@@ -134,7 +149,9 @@ add_tablet (action) {
     add_tablet_base(id,  action.name, action.period,action.doza,start, finish_date, times, action.condition  )
     }}
     else{
-      console.log("не могу добавить")
+      var value="Не могу добавить, так как конец приема таблеток уже наступил";
+        this._send_action_value("error_finish", value) 
+        console.log("value", value)
     }
       
     
@@ -154,7 +171,7 @@ add_tablet (action) {
     //console.log(action.name, action.surname, action.birthdate.value)
     var datetime= action.birthdate.value
     var date = datetime.split("T")[0];
-    post_data_profile(action.name, action.surname, date)
+    post_data_profile(capitalizeAfterSpace(action.name), capitalizeAfterSpace(action.surname), date)
     
   }
   //console.log("tablets", this.state.tablets)
@@ -202,8 +219,8 @@ delete_all_pils(action){
 
       })*/
       var ans=delete_all_pils( action.name)//0
-      if(ans ===0){
-        var value="таблетки не найдено";
+      if(ans ===0){//ошибка
+        var value="Tаблетки с таким именем не найдено";
         this._send_action_value("delete_all", value) 
         console.log("value", value)
       
@@ -235,7 +252,13 @@ delete_tablet_one_time(action){
       })*/
       console.log("time", time)
       //console.log("action.name", action.name)
-      delete_tablet_one_time( action.name, time)//0
+      var ans =delete_tablet_one_time( action.name, time)//0
+      if(ans ===0){//ошибка
+        var value="Данные некорректны";
+        this._send_action_value("error_del_time", value) 
+        console.log("value", value)
+      
+    }
     }
 }
 mark_pill(action){
@@ -257,11 +280,16 @@ mark_pill(action){
       var state_all = get_data_states()
       console.log("time", time)
       var id = find_id(action.name, time)
+      var value = ''
       if(id===0){
-        console.log("я ничего не нашел")
+        value="Tаблетки с таким именем не найдено";
+        this._send_action_value("delete_all", value) 
+        console.log("value", value)
       }
       else if(id===-1){
-        console.log("такого времени нет")
+        value="Tаблетки с таким временем приема не найдено";
+        this._send_action_value("error_time", value) 
+        console.log("value", value)
       }
       else {
         var obj = { id: id, data: today, times: [time] };
@@ -269,7 +297,12 @@ mark_pill(action){
         console.log("state", state)
         if(state){state_all.push(obj)
         save_data_states(state_all)}
-        else {console.log("такая таблетка уже выпита")}
+        else {
+        value="Tаблетка с таким временем приема уже выпита";
+        this._send_action_value("error_mark", value) 
+        console.log("value", value)
+      
+      }
       }
       //console.log("action.name", action.name)
       

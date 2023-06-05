@@ -104,27 +104,25 @@ export function get_tablets_in_day(date)
       console.log("endDate", endDate)
       console.log(date <= endDate)*/
     if(date >= startDate && date <= endDate) {
-      if(element.times===[]){element.times.forEach(function(element1){
-        var addtablet=Object.assign([], element);
-        
-        addtablet.times=[element1]
-        console.log("push")
-        ans.push(addtablet)
+      console.log("get_tablets_in_day",element.times)
+      if(element.times===[]){
+        console.log("nothing")
 
-      })}
-      else{
-        var addtablet=Object.assign([], element);
-        console.log("push")
-        ans.push(addtablet)}
-      
       }
-      //else{alert("следует удалить  таблетку " ,element.name )}
-      ;}
       else{
+        element.times.forEach(function(element1){
+          var addtablet=Object.assign([], element);
+          addtablet.times=[element1]
+          console.log("push")
+          ans.push(addtablet)}
+          )
+      //else{alert("следует удалить  таблетку " ,element.name )}
+      }}
+      
+  }else{
         delete_all_pils(element.name)
-        console.log("следует удалить  таблетку " ,element.name )}
-  });
-  console.log("ans", ans)
+        console.log("следует удалить  таблетку " ,element.name )};})
+  //console.log("ans", ans)
   ans.sort(function(a, b){
     if(a.times[0] && b.times[0]){ var nameA=a.times[0].toLowerCase(), nameB=b.times[0].toLowerCase()
       if (nameA < nameB) {return -1}
@@ -133,7 +131,7 @@ export function get_tablets_in_day(date)
     // Никакой сортировки
     // new Date(===a.times[0])- new Date(b.times[0])
   });
-  console.log("ans", ans)
+  //console.log("ans", ans)
   return ans
 }
  export function create_base_states(){
@@ -212,7 +210,7 @@ export function delete_all_pils(name){
       console.log("delete_tablet")
       data.tablets=data_tablets
       save_data_user(data)
-      return 0;
+      return 1;
     }
   }
   console.log("not_found")
@@ -335,4 +333,17 @@ export function find_id(name, time){
     }
   }
   return 0
+}
+
+export function capitalizeAfterSpace(str) {
+  let words = str.split(' ');
+
+  for (let i = 0; i < words.length; i++) {
+    let word = words[i];
+    if (word.length > 0) {
+      words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+    }
+  }
+
+  return words.join(' ');
 }

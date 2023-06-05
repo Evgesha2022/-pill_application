@@ -97,8 +97,12 @@ function FullCard(props) {
     const content = props.posts.map((post, i) => {
       var condition = post.condition
       var modifiedcondition = condition.charAt(0).toLowerCase() + condition.slice(1);
+      var time =post.times[0]
+      if(post.times[0]==="00:00"){
+       time =''
+      }
       return (<div key={i} >
-        <h3 >{post.name}            {post.times[0]}
+        <h3 >{post.name}            {time}
 
         </h3>
         <p  >{post.doza}  {modifiedcondition} </p>

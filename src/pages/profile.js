@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { IconEdit } from '@salutejs/plasma-icons';
 
 import { Button, DeviceThemeProvider, HeaderSubtitle, TextField } from '@salutejs/plasma-ui';
-import { post_data_profile } from '../data/data'
+import { post_data_profile, capitalizeAfterSpace } from '../data/data'
 //import axios from '../axios.js';
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
@@ -74,7 +74,7 @@ window.addEventListener('storage', function(event) {
     setIsReadOnly(true);
     e.preventDefault();
 
-    post_data_profile(name, surname, birthday)
+    post_data_profile(capitalizeAfterSpace(name), capitalizeAfterSpace(surname), birthday)
 
     data = error()
     window.addEventListener('storage', function(event) {

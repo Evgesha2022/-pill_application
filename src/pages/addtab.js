@@ -6,7 +6,7 @@ import { Button, Card, CardBody, CardContent, CardHeadline1, DeviceThemeProvider
 import { IconCrossCircle } from "@salutejs/plasma-icons";
 import { useState } from 'react';
 import axios from '../axios.js';
-import { get_data, save_data_user } from '../data/data.js'
+import { get_data, save_data_user , capitalizeAfterSpace} from '../data/data.js'
 import { addDaysToDate, check_start } from '../data/add_days'
 import{check_finish_date}from '../data/data.js'
 
@@ -56,7 +56,7 @@ const [items, setItems] = useState(value)
         if(times.length===0){times.push("00:00")}
         tablet = {
             id: Math.random().toString(36).substring(7),
-            name: name,
+            name:capitalizeAfterSpace( name),
             doza: doza,
             start_date: new_start,
             finish_date: finish_date,
@@ -146,8 +146,7 @@ const [items, setItems] = useState(value)
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '36px' }}>
                             <Button view='primary' style={{ width: '120px' }} type="submit" onClick={handleSubmit}>{'Добавить'}</Button>
-                            <Button style={{ width: '120px', marginLeft: '20px' }} onClick={() => {
-                            }}>Отмена</Button>
+                            
                         </div>
                     </CardContent>
                 </CardBody>
