@@ -8,6 +8,7 @@ import { post_data_profile, capitalizeAfterSpace } from '../data/data'
 //import fs from "fs";
 //const data = fs.readFile('data.json', 'utf8');
 
+
 function error() {
   try {
     let la = localStorage.getItem('user')
@@ -17,7 +18,6 @@ function error() {
   catch (SyntaxError) {
     alert("Профиль заполнен с ошибкой")
     let data = post_data_profile('', '', '')
-
     return data
   }
 }
