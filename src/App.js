@@ -127,6 +127,7 @@ add_tablet (action) {
       
      // console.log("finish_date", finish_date)
       let id = Math.random().toString(36).substring(7)
+      var value =""
      if(check_finish_date(finish_date)) {if (action.name != undefined)
       {
       this.setState({
@@ -147,9 +148,12 @@ add_tablet (action) {
 
       })*/
     add_tablet_base(id,  capitalizeAfterSpace(action.name), action.period,action.doza,start, finish_date, times, action.condition  )
+    value="Добавлено";
+        this._send_action_value("error_finish", value) 
+        console.log("value", value)
     }}
     else{
-      var value="Не могу добавить, так как конец приема таблеток уже наступил";
+      value="Не могу добавить, так как конец приема таблеток уже наступил";
         this._send_action_value("error_finish", value) 
         console.log("value", value)
     }
@@ -172,7 +176,7 @@ add_tablet (action) {
     var datetime= action.birthdate.value
     var date = datetime.split("T")[0];
     post_data_profile(capitalizeAfterSpace(action.name), capitalizeAfterSpace(action.surname), date)
-    
+   
   }
   //console.log("tablets", this.state.tablets)
 }
@@ -225,6 +229,11 @@ delete_all_pils(action){
         console.log("value", value)
       
     }
+    else{
+      var value="Удаляю";
+        this._send_action_value("delete_all", value) 
+        console.log("value", value)
+    }
     }
 }
 
@@ -258,6 +267,11 @@ delete_tablet_one_time(action){
         this._send_action_value("error_del_time", value) 
         console.log("value", value)
       
+    }
+    else{
+      var value="Удаляю";
+      this._send_action_value("error_del_time", value) 
+      console.log("value", value)
     }
     }
 }
@@ -294,13 +308,19 @@ mark_pill(action){
       else {
         var obj = { id: id, data: today, times: [time] };
         var state = find_state(obj, state_all)
-        console.log("state", state)
-        if(state){state_all.push(obj)
-        save_data_states(state_all)}
-        else {
-        value="Tаблетка с таким временем приема уже выпита";
+        console.log("mark_pill state", state)
+        if(state!=null){
+          value="Tаблетка с таким временем приема уже выпита";
         this._send_action_value("error_mark", value) 
         console.log("value", value)
+      }
+        else {
+        state_all.push(obj)
+        save_data_states(state_all)
+        value="Хорошо, отметил";
+        this._send_action_value("error_mark", value) 
+        console.log("value", value)
+
       
       }
       }
