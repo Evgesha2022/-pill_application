@@ -120,7 +120,7 @@ const [items, setItems] = useState(value)
                                 value={period}
                                 helperText='Введите число'
                                 onChange={(e) => { setPeriod(e.target.value) }}
-                                placeholder="Период приема" />
+                                placeholder="Количество дней" />
                             {items && items.time && items.time.map((time, index) => (
                                 <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '20px', fontSize: '20px' }}>
 

@@ -57,6 +57,7 @@ function General() {
           index={index}
           scrollMode="scroll"
           scrollSnapType="mandatory"
+          scroll-padding="1px"
           detectActive detectThreshold={0.5}
           style={{ paddingTop: '1.25rem', paddingBottom: '1.25rem', paddingStart: "0px", }}
         >
