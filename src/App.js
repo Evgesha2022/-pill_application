@@ -309,7 +309,7 @@ mark_pill(action){
         var obj = { id: id, data: today, times: [time] };
         var state = find_state(obj, state_all)
         console.log("mark_pill state", state)
-        if(state!=null){
+        if(state!==-1){
           value="Tаблетка с таким временем приема уже выпита";
         this._send_action_value("error_mark", value) 
         console.log("value", value)
