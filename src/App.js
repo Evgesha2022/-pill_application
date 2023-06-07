@@ -311,7 +311,9 @@ mark_pill(action){
         console.log("mark_pill state", state)
         if(state!==-1){
           value="Tаблетка с таким временем приема уже выпита";
-        this._send_action_value("error_mark", value) 
+        this._send_action_value("error_mark", value)
+        
+        
         console.log("value", value)
       }
         else {
