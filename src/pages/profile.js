@@ -16,7 +16,7 @@ function error() {
     return data
   }
   catch (SyntaxError) {
-    alert("Профиль заполнен с ошибкой")
+    //alert("Профиль заполнен с ошибкой")
     let data = post_data_profile('', '', '')
     return data
   }

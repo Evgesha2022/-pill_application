@@ -146,7 +146,7 @@ add_tablet (action) {
         times.push(get_time(time))
 
       })*/
-    add_tablet_base(id,  action.name, action.period,action.doza,start, finish_date, times, action.condition  )
+    add_tablet_base(id,  capitalizeAfterSpace(action.name), action.period,action.doza,start, finish_date, times, action.condition  )
     }}
     else{
       var value="Не могу добавить, так как конец приема таблеток уже наступил";
