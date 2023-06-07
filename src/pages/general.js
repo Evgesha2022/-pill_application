@@ -23,9 +23,10 @@ function General() {
     0: 'Воскресенье',
   };
 
+
   //const { onAdd } = this.props;
   //const { onChangeAd } = this.props;
-  const items = Array(7)
+  var initialitems = Array(7)
     .fill({
       subtitle: 'Расписание приема таблеток',
     })
@@ -36,9 +37,29 @@ function General() {
       tablets: get_tablets_in_day(getFutureDate(i)),
       data: getFutureDate(i)
     }));
+    window.addEventListener('storage', function (event) {
+      if (event.key === 'user') {
+        // Выполните необходимые действия при изменении данных
+        console.log("change_items")
+        initialitems = Array(7)
+    .fill({
+      subtitle: 'Расписание приема таблеток',
+    })
+    .map(({ title, subtitle }, i) => ({
+      title: `${days[getFutureDate(i).getDay()]} ${getFutureDate(i).toLocaleDateString()} `,
+      subtitle: `${subtitle} `,
+      i: i,
+      tablets: get_tablets_in_day(getFutureDate(i)),
+      data: getFutureDate(i)
+    }));
+      }
+      setItems(initialitems)
+    });
+
+
 
   const axis = 'x';
-
+  const [items, setItems] = useState(initialitems);
   const [index] = useRemoteHandlers({
     initialIndex: 0,
     axis,
@@ -48,6 +69,7 @@ function General() {
     max: items.length - 1,
   });
   var time = get_time(today)
+  
   return (
     <DeviceThemeProvider zIndex="99" >
       <h2 align="center">Время {time}</h2>

@@ -25,7 +25,16 @@ export function get_data_tablets(id){
   export function get_data(){
     
     var data = JSON.parse(localStorage.getItem('user'))
-    const result = data;
+    var result = data;
+    window.addEventListener('storage', function (event) {
+      if (event.key === 'user') {
+        // Выполните необходимые действия при изменении данных
+        console.log("get_tablets_in_day event.newValue", event.newValue)
+        data = JSON.parse(event.newValue);
+        result = data;
+        return result
+      }
+    });
     return result
   }
   export function save_data_user(obj)
@@ -89,7 +98,7 @@ export function get_tablets_in_day(date)
 {
   let data = get_data()
   let tablets=data.tablets
-
+  console.log(tablets)
   let ans =[]
   tablets.forEach(function(element) {
     var startDate = new Date(element.start_date);
